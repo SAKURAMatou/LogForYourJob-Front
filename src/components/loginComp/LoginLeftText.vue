@@ -17,11 +17,14 @@
     width: 260px;
     flex-direction: column;
     flex-shrink: 0;
+    margin-left: 35px;
 }
 
 .text-1 {
     font-size: 25px;
     font-weight: 300;
+    margin-top: 36px;
+
 
 }
 
@@ -29,6 +32,8 @@
 
     font-size: 31px;
     font-weight: 500;
+    width: 380px;
+    margin-top: 29px;
 
 }
 
@@ -36,6 +41,7 @@
 
     font-size: 16px;
     font-weight: 400;
+    margin-top: 10px;
 
 }
 </style>
