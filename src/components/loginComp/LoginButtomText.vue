@@ -19,7 +19,7 @@
     font-weight: 300;
     line-height: normal;
 
-    margin-top: 56px;
+    margin-top: 36px;
     margin-left: 77px;
 }
 </style>

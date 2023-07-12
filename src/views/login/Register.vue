@@ -1,32 +1,27 @@
 <template>
     <div class="layout">
         <LoginLogo></LoginLogo>
-        <div class="login-main">
+        <div class="login-main" style="height: 757px;">
             <div class="login-left">
-                <!-- 登陆的密码等输入 -->
                 <LoginLeftText></LoginLeftText>
                 <br />
                 <div class="login-input">
-                    <!-- 账号密码输入 -->
                     <el-form ref="userValidate" :model="userForm" :rules="rules" hide-required-asterisk="true"
                         label-position="top" class="demo-ruleForm" status-icon>
+                        <el-form-item label="email" prop="email">
+                            <el-input v-model="userForm.email" placeholder="Please input email" />
+                        </el-form-item>
                         <el-form-item label="User name" prop="name">
                             <el-input v-model="userForm.name" placeholder="Please input username" />
                         </el-form-item>
-
                         <el-form-item label="Password" prop="pwd">
-                            <!-- <el-icon>
-                                <InfoFilled />
-                            </el-icon> -->
-                            <el-input v-model="userForm.pwd" type="password" @keyup.enter="handleLogin"
-                                placeholder="Please input password" show-password />
-                            <el-icon>
-                                <View />
-                            </el-icon>
+                            <el-input v-model="userForm.pwd" type="password" placeholder="Please input password"
+                                autocomplete="off" show-password />
                         </el-form-item>
-                        <div class="forget-pwd">
-                            <router-link class="forget-pwd-text" to="/login/forgetpwd">Forgot Password ?</router-link>
-                        </div>
+                        <el-form-item label="Confirm" prop="checkPass">
+                            <el-input v-model="userForm.checkPass" type="password" placeholder="Please input password again"
+                                autocomplete="off" show-password />
+                        </el-form-item>
                         <br />
 
                         <el-button type="primary" class="login-button my-login-button" style="
@@ -34,12 +29,12 @@
                                 height: 39px;
                                 border-radius: 6px;
                                 background: #000;
-                            " @click="handleLogin">登陆</el-button>
+                            " @click="handleLogin">注册</el-button>
                         <div>
                             <LoginButtomText>
-                                <template #l>Don't have an Account ?</template>
+                                <template #l>Already have an Account ? </template>
                                 <template #r>
-                                    <RouterLink to="/login/register">Register</RouterLink>
+                                    <RouterLink to="/login/login">login</RouterLink>
                                 </template>
                             </LoginButtomText>
                         </div>
@@ -55,38 +50,70 @@
 </template>
 
 <script setup>
-import { ElMessage } from 'element-plus'
 import { ref, reactive } from 'vue'
 import LoginLeftText from '@/components/loginComp/LoginLeftText.vue'
 import LoginLogo from '@/components/loginComp/LoginLogo.vue'
 import LoginButtomText from '@/components/loginComp/LoginButtomText.vue'
-
+import { ElMessage } from 'element-plus'
 //表单绑定对象
 const userForm = ref({
     name: '',
-    pwd: ''
+    pwd: '',
+    email: "",
+    checkPass: ''
 })
 //校验的对象
 const userValidate = ref({
     name: '',
-    pwd: ''
+    pwd: '',
+    email: "",
+    checkPass: ''
 })
+
+const validatePwd = (rule, value, callback) => {
+    // console.log('validatePwd-rule', rule)
+    // console.log('validatePwd-value', value)
+    if (value === '') {
+        callback(new Error('Please input the password'))
+    } else {
+        if (userForm.value.checkPass !== '') {
+            //触发密码确认的校验
+            userValidate.value.validateField('checkPass', () => null)
+        }
+        callback()
+    }
+}
+const checkPass = (rule, value, callback) => {
+    // console.log(rule, value, callback)
+    if (value === '') {
+        callback(new Error('Please input the password'))
+    } else if (value !== userForm.value.pwd) {
+        callback(new Error("Two inputs don't match!"))
+    } else {
+        callback()
+    }
+}
 
 const rules = reactive({
     name: [
-        { required: true, message: 'Please input user name', trigger: 'blur' }
+        { required: true, message: '输入username', trigger: 'blur' }
         // { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
     ],
     pwd: [
+        { validator: validatePwd, trigger: 'blur' }
+    ],
+    email: [
+        { required: true, message: '输入与偶像', trigger: 'blur' },
         {
-            required: true,
-            message: 'Please input password',
-            trigger: 'blur'
-        }
-    ]
+            type: 'email',
+            message: 'Please input correct email address',
+            trigger: ['blur', 'change'],
+        },
+    ],
+    checkPass: [{ validator: checkPass, trigger: 'blur' }]
 })
 
-const handleLogin = () => {
+const handleRegister = () => {
     userValidate.value.validate(async (valid) => {
         if (valid) {
             // ElMessage.info("成功！");
@@ -99,32 +126,22 @@ const handleLogin = () => {
     });
 }
 </script>
-
-
 <style scoped>
 @import '@/assets/logincss/logincommon.css';
 
-.forget-pwd-text {
-    color: #4d4d4d;
-    font-family: Poppins;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 300;
-    line-height: normal;
-    width: 99px;
-    margin-left: 321px;
-    position: relative;
-    /* margin-right: 47px; */
-}
-
-
 .login-left {
     width: 505px;
-    height: 568px;
+    height: 705px;
     flex-shrink: 0;
     border-radius: 10px;
     border: 0.5px solid #878787;
     background: #fff;
     box-shadow: 0px 4px 64px 0px rgba(0, 0, 0, 0.05);
 }
+
+/* .layout {
+    width: 100%;
+    height:757px;
+    background: #fff;
+} */
 </style>
