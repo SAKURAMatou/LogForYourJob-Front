@@ -2,14 +2,14 @@
 <template>
   <div class="common-layout">
     <el-container class="app-wrapper">
-      <el-aside width="240px" class="sidebar-container">
+      <el-aside width="246px" class="sidebar-container">
 
         <el-row class="tac">
           <!-- <div class="layout"> -->
           <el-col>
             <SvgIcon name="systemLog" id="left-aside-logo"></SvgIcon>
             <!-- <h4 class="mb-2">侧面菜单</h4> -->
-            <el-menu default-active="00" @open="handleOpen" @close="handleClose">
+            <el-menu default-active="00" router @open="handleOpen" @close="handleClose">
               <el-menu-item index="2">
                 <el-icon><icon-menu /></el-icon>
                 <span>Navigator Two</span>
@@ -35,7 +35,17 @@
                 <span>{{ item.name }}</span>
               </el-menu-item>
             </template> -->
-
+              <div id="line-ap">
+                <svg xmlns="http://www.w3.org/2000/svg" width="241" height="2" viewBox="0 0 241 2" fill="none">
+                  <path
+                    d="M240 1.037L240.5 1.037L240.5 0.0369968L240 0.0369968L240 1.037ZM4.37114e-08 1.03702L240 1.037L240 0.0369968L-4.37114e-08 0.0370178L4.37114e-08 1.03702Z"
+                    fill="#D4D9DB" />
+                </svg>
+              </div>
+              <div class="main-left-img">
+                <!-- 左侧图片他单独一个组件LoginLeftImg -->
+                <img src="@/assets/imgs/main_left_img01.png" />
+              </div>
 
             </el-menu>
           </el-col>
@@ -61,6 +71,7 @@
 <style scoped>
 body {
   background: var(--background, #F0F6FF);
+  margin-top: 0px !important;
 }
 
 .common-layout {
@@ -80,6 +91,7 @@ body {
   flex-shrink: 0;
   align-self: stretch;
   background: #FFF;
+  margin-top: 16px;
 }
 
 .app-wrapper {
@@ -89,7 +101,23 @@ body {
 .tac {
   height: 100%;
 }
-.el-col{
+
+.el-col {
   background: var(--white, #FFF);
+}
+
+#line-ap {
+  stroke-width: 1px;
+  stroke: var(--line, #D4D9DB);
+  height: 0px;
+  flex-shrink: 0;
+  align-self: stretch;
+}
+
+.main-left-img {
+  height: 479px;
+  flex-shrink: 0;
+  align-self: stretch;
+  margin-top: 64px;
 }
 </style>
