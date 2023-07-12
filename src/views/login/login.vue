@@ -60,6 +60,7 @@ import { ref, reactive } from 'vue'
 import LoginLeftText from '@/components/loginComp/LoginLeftText.vue'
 import LoginLogo from '@/components/loginComp/LoginLogo.vue'
 import LoginButtomText from '@/components/loginComp/LoginButtomText.vue'
+import { LoginStore } from '@/stores/logjobstore/loginstroe.js'
 
 //表单绑定对象
 const userForm = ref({
@@ -86,12 +87,15 @@ const rules = reactive({
     ]
 })
 
+const loginStore = LoginStore();
+
 const handleLogin = () => {
     userValidate.value.validate(async (valid) => {
         if (valid) {
-            // ElMessage.info("成功！");
-            //表单验证通过之后执行登陆操作，通过vuex
-            // store.dispatch("login", ruleForm.value)
+            loginStore.login(userForm.value).then((logres) => {
+                ElMessage.info("成功！");
+
+            });
         } else {
             ElMessage.error('失败！')
             return false
