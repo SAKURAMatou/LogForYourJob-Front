@@ -8,38 +8,65 @@
                 <br />
                 <div class="login-input">
                     <!-- 账号密码输入 -->
-                    <el-form ref="userValidate" :model="userForm" :rules="rules" hide-required-asterisk="true"
-                        label-position="top" class="demo-ruleForm" status-icon>
+                    <el-form
+                        ref="userValidate"
+                        :model="userForm"
+                        :rules="rules"
+                        hide-required-asterisk="true"
+                        label-position="top"
+                        class="demo-ruleForm"
+                        status-icon
+                    >
                         <el-form-item label="User name" prop="name">
-                            <el-input v-model="userForm.name" placeholder="Please input username" />
+                            <el-input
+                                v-model="userForm.name"
+                                placeholder="Please input username"
+                            />
                         </el-form-item>
 
                         <el-form-item label="Password" prop="pwd">
                             <!-- <el-icon>
                                 <InfoFilled />
                             </el-icon> -->
-                            <el-input v-model="userForm.pwd" type="password" @keyup.enter="handleLogin"
-                                placeholder="Please input password" show-password />
-                            <el-icon>
+                            <el-input
+                                v-model="userForm.pwd"
+                                type="password"
+                                @keyup.enter="handleLogin"
+                                placeholder="Please input password"
+                                show-password
+                            />
+                            <!-- <el-icon>
                                 <View />
-                            </el-icon>
+                            </el-icon> -->
                         </el-form-item>
                         <div class="forget-pwd">
-                            <router-link class="forget-pwd-text" to="/login/forgetpwd">Forgot Password ?</router-link>
+                            <router-link
+                                class="forget-pwd-text"
+                                to="/login/forgetpwd"
+                                >Forgot Password ?</router-link
+                            >
                         </div>
                         <br />
 
-                        <el-button type="primary" class="login-button my-login-button" style="
+                        <el-button
+                            type="primary"
+                            class="login-button my-login-button"
+                            style="
                                 width: 100%;
                                 height: 39px;
                                 border-radius: 6px;
                                 background: #000;
-                            " @click="handleLogin">登陆</el-button>
+                            "
+                            @click="handleLogin"
+                            >登陆</el-button
+                        >
                         <div>
                             <LoginButtomText>
                                 <template #l>Don't have an Account ?</template>
                                 <template #r>
-                                    <RouterLink to="/login/register">Register</RouterLink>
+                                    <RouterLink to="/login/register"
+                                        >Register</RouterLink
+                                    >
                                 </template>
                             </LoginButtomText>
                         </div>
@@ -56,6 +83,7 @@
 
 <script setup>
 import { ElMessage } from 'element-plus'
+// import { View } from '@element-plus/icons';
 import { ref, reactive } from 'vue'
 import LoginLeftText from '@/components/loginComp/LoginLeftText.vue'
 import LoginLogo from '@/components/loginComp/LoginLogo.vue'
@@ -87,23 +115,21 @@ const rules = reactive({
     ]
 })
 
-const loginStore = LoginStore();
+const loginStore = LoginStore()
 
 const handleLogin = () => {
     userValidate.value.validate(async (valid) => {
         if (valid) {
             loginStore.login(userForm.value).then((logres) => {
-                ElMessage.info("成功！");
-
-            });
+                ElMessage.info('成功！')
+            })
         } else {
             ElMessage.error('失败！')
             return false
         }
-    });
+    })
 }
 </script>
-
 
 <style scoped>
 @import '@/assets/logincss/logincommon.css';
@@ -120,7 +146,6 @@ const handleLogin = () => {
     position: relative;
     /* margin-right: 47px; */
 }
-
 
 .login-left {
     width: 505px;
