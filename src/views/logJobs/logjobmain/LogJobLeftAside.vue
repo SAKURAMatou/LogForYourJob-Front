@@ -9,31 +9,11 @@
                 @open="handleOpen"
                 @close="handleClose"
             >
-                <el-menu-item index="2">
-                    <el-icon><icon-menu /></el-icon>
-                    <span>Navigator Two</span>
+                <el-menu-item :index="jobSearch">
+                    <el-icon><SvgIcon name="document"></SvgIcon></el-icon>
+                    <span class="left-aside-menu">投递记录</span>
                 </el-menu-item>
-                <el-menu-item index="3" disabled>
-                    <el-icon>
-                        <document />
-                    </el-icon>
-                    <span>Navigator Three</span>
-                </el-menu-item>
-                <el-menu-item index="4">
-                    <el-icon>
-                        <setting />
-                    </el-icon>
-                    <span>Navigator Four</span>
-                </el-menu-item>
-                <!-- 把stores中的数据渲染成菜单 -->
-                <!-- <template v-for="item in store.state.permission.menus" :key="item.id">
-              <el-menu-item :index="item.path">
-                <el-icon>
-                  <setting />
-                </el-icon>
-                <span>{{ item.name }}</span>
-              </el-menu-item>
-            </template> -->
+
                 <div id="line-ap">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -48,6 +28,10 @@
                         />
                     </svg>
                 </div>
+                <el-menu-item :index="setting">
+                    <el-icon><SvgIcon name="setting"></SvgIcon></el-icon>
+                    <span class="left-aside-menu">用户设置</span>
+                </el-menu-item>
                 <div class="main-left-img">
                     <!-- 左侧图片他单独一个组件LoginLeftImg -->
                     <img src="@/assets/imgs/main_left_img01.png" />
@@ -59,6 +43,11 @@
 </template>
 <script setup>
 import UserAvatar from '@/components/logForJobComp/UserAvatar.vue'
+// import document from '@element-plus/icons-vue'
+import { ref } from 'vue'
+import { DL_ROUTER_PATH } from '@/CONST_VALUE.js'
+const jobSearch = ref(DL_ROUTER_PATH.main_view.job)
+const setting = ref(DL_ROUTER_PATH.main_view.setting)
 </script>
 
 <style scoped>
@@ -92,12 +81,25 @@ import UserAvatar from '@/components/logForJobComp/UserAvatar.vue'
     height: 0px;
     flex-shrink: 0;
     align-self: stretch;
+
+    margin-top: 32px;
+    margin-bottom: 32px;
 }
 
 .main-left-img {
     height: 479px;
     flex-shrink: 0;
     align-self: stretch;
-    margin-top: 64px;
+    margin-top: 12px;
+}
+.left-aside-menu {
+    color: #5d7285;
+    /* font-family: Poppins; */
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 21.954px; /* 150% */
+    letter-spacing: 0.146px;
+    font-family: Microsoft YaHei UI;
 }
 </style>

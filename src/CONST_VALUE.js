@@ -1,7 +1,9 @@
 //路由路径常量定义
 const DL_ROUTER_PATH = {
     main_view: {
-        main: '/logjobs/main'
+        main: '/logjobs/main',
+        job:"/logjobs/jobsearch",
+        setting:'/user/setting'
     },
     login_view: {
         login: '/login/login',
