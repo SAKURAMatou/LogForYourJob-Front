@@ -33,7 +33,7 @@ export const LoginStore = defineStore('LoginStore', {
             return new Promise((resolve) => {
                 userLogin(userinfo).then((res) => {
                     Auth.setTokenTime(Date.now()).then(() => {
-                        console.log('login', res)
+                        // console.log('login', res)
                         if (res.data.state.code === 200) {
                             this.setUserInfo(res.data.custom)
                             //设置用户登录有效期等信息
@@ -47,6 +47,7 @@ export const LoginStore = defineStore('LoginStore', {
         },
         logout() {
             return new Promise((resolve) => {
+                console.log('logout')
                 //重置state
                 this.$reset()
                 //清空浏览器本地存储信息

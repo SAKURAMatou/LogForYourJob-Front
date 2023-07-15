@@ -7,3 +7,6 @@ export async function userLogin(user) {
 export function userLogOut() {
     return request.post('/user/logout', user)
 }
+export function userRegister(user) {
+    return request.post('/user/register', user)
+}

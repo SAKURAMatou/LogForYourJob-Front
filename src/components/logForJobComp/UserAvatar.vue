@@ -35,7 +35,6 @@
 <script setup>
 import { ref } from 'vue'
 import { LoginStore } from '@/stores/logjobstore/loginstroe.js'
-const avatarUrl = ref('../../assets/imgs/defaultavatar.svg')
 const loginStore = LoginStore()
 const userInfo = loginStore.getUserInfo
 if (!userInfo.username) {
@@ -46,7 +45,7 @@ if (!userInfo.useremail) {
 }
 
 function logout() {
-    console.log('logout')
+    loginStore.logout()
 }
 </script>
 <style scoped>

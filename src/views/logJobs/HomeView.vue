@@ -5,7 +5,9 @@
                 <LogJobLeftAside></LogJobLeftAside>
             </el-aside>
             <el-container class="container right-container">
-                <el-header>Header</el-header>
+                <el-header>
+                    <LogJobHeader></LogJobHeader>
+                </el-header>
                 <el-main>
                     <router-view></router-view>
                 </el-main>
@@ -17,6 +19,7 @@
 
 <script setup>
 import LogJobLeftAside from '@/views/logJobs/logjobmain/LogJobLeftAside.vue'
+import LogJobHeader from '@/views/logJobs/logjobmain/LogJobHeader.vue'
 </script>
 
 <style scoped>
