@@ -1,7 +1,8 @@
-// import { ref, computed } from 'vue'
+import { DL_ROUTER_PATH } from '@/CONST_VALUE.js'
 import { defineStore } from 'pinia'
 import router from '@/router'
 import { userLogin } from '@/api/loginUtil.js'
+import Auth from '@/Utils/auth.js'
 
 export const LoginStore = defineStore('LoginStore', {
     state: () => ({
@@ -31,22 +32,27 @@ export const LoginStore = defineStore('LoginStore', {
         login(userinfo) {
             return new Promise((resolve) => {
                 userLogin(userinfo).then((res) => {
-                    console.log('login', res)
-                    if (res.data.state.code === 200) {
-                        this.setUserInfo(res.data.custom)
-                        //设置用户登录有效期等信息
-                        router.push('/logjobs/main')
-                    } else {
-                    }
+                    Auth.setTokenTime(Date.now()).then(() => {
+                        console.log('login', res)
+                        if (res.data.state.code === 200) {
+                            this.setUserInfo(res.data.custom)
+                            //设置用户登录有效期等信息
+                            router.push(DL_ROUTER_PATH.main_view.main)
+                            resolve()
+                        } else {
+                        }
+                    })
                 })
-                resolve()
             })
         },
         logout() {
             return new Promise((resolve) => {
-                this.username = ''
-                this.token = ''
+                //重置state
+                this.$reset()
+                //清空浏览器本地存储信息
                 localStorage.clear()
+                //路由跳转根路径
+                router.push('/')
                 //TODO
                 resolve()
             })
@@ -54,9 +60,12 @@ export const LoginStore = defineStore('LoginStore', {
         setUserInfo(userInfo) {
             this.username = userInfo.username
             this.token = userInfo.token
+            this.avatarurl = userInfo.avatarurl
+            this.useremail = userInfo.useremail
             localStorage.setItem('username', userInfo.username)
             localStorage.setItem('token', userInfo.token)
             localStorage.setItem('email', userInfo.useremail)
+            localStorage.setItem('avatarurl', userInfo.avatarurl)
         }
     }
 })
