@@ -46,8 +46,23 @@ import UserAvatar from '@/components/logForJobComp/UserAvatar.vue'
 // import document from '@element-plus/icons-vue'
 import { ref } from 'vue'
 import { DL_ROUTER_PATH } from '@/CONST_VALUE.js'
-const jobSearch = ref(DL_ROUTER_PATH.main_view.job)
-const setting = ref(DL_ROUTER_PATH.main_view.setting)
+const jobSearch = ref(
+    DL_ROUTER_PATH.main_view.main_root +
+        '/' +
+        DL_ROUTER_PATH.main_view.children.log_main
+)
+const setting = ref(
+    DL_ROUTER_PATH.main_view.main_root +
+        '/' +
+        DL_ROUTER_PATH.main_view.children.setting
+)
+
+const handleOpen = (key, keyPath) => {
+    console.log('handleOpen', key, keyPath)
+}
+const handleClose = (key, keyPath) => {
+    console.log(key, keyPath)
+}
 </script>
 
 <style scoped>

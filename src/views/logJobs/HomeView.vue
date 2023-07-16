@@ -2,55 +2,7 @@
     <div class="common-layout">
         <el-container class="app-wrapper">
             <el-aside width="246px" class="sidebar-container">
-                <!-- <LogJobLeftAside></LogJobLeftAside> -->
-                <el-row class="tac">
-                    <el-col>
-                        <SvgIcon
-                            name="systemLog"
-                            id="left-aside-logo"
-                        ></SvgIcon>
-                        <!-- <h4 class="mb-2">侧面菜单</h4> -->
-                        <el-menu
-                            default-active="00"
-                            router
-                            @open="handleOpen"
-                            @close="handleClose"
-                        >
-                            <el-menu-item :index="jobSearch">
-                                <el-icon
-                                    ><SvgIcon name="document"></SvgIcon
-                                ></el-icon>
-                                <span class="left-aside-menu">投递记录</span>
-                            </el-menu-item>
-
-                            <div id="line-ap">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="241"
-                                    height="2"
-                                    viewBox="0 0 241 2"
-                                    fill="none"
-                                >
-                                    <path
-                                        d="M240 1.037L240.5 1.037L240.5 0.0369968L240 0.0369968L240 1.037ZM4.37114e-08 1.03702L240 1.037L240 0.0369968L-4.37114e-08 0.0370178L4.37114e-08 1.03702Z"
-                                        fill="#D4D9DB"
-                                    />
-                                </svg>
-                            </div>
-                            <el-menu-item :index="setting">
-                                <el-icon
-                                    ><SvgIcon name="setting"></SvgIcon
-                                ></el-icon>
-                                <span class="left-aside-menu">用户设置</span>
-                            </el-menu-item>
-                            <div class="main-left-img">
-                                <!-- 左侧图片他单独一个组件LoginLeftImg -->
-                                <img src="@/assets/imgs/main_left_img01.png" />
-                            </div>
-                            <UserAvatar></UserAvatar>
-                        </el-menu>
-                    </el-col>
-                </el-row>
+                <LogJobLeftAside></LogJobLeftAside>
             </el-aside>
             <el-container class="container right-container">
                 <el-header style="position: relative; height: 90px">
@@ -74,24 +26,27 @@
 </template>
 
 <script setup>
-// import LogJobLeftAside from '@/views/logJobs/logjobmain/LogJobLeftAside.vue'
+import LogJobLeftAside from '@/views/logJobs/logjobmain/LogJobLeftAside.vue'
 import LogJobHeader from '@/views/logJobs/logjobmain/LogJobHeader.vue'
 import MainViewDivider from '@/components/logForJobComp/MainViewDivider.vue'
 import { ref } from 'vue'
 const listCount = ref(0)
 const btntext = ref('返回上级')
 // import { ref } from 'vue'
-import UserAvatar from '@/components/logForJobComp/UserAvatar.vue'
-import { DL_ROUTER_PATH } from '@/CONST_VALUE.js'
-const jobSearch = ref(DL_ROUTER_PATH.main_view.job)
-const setting = ref(DL_ROUTER_PATH.main_view.setting)
+// import UserAvatar from '@/components/logForJobComp/UserAvatar.vue'
+// import { DL_ROUTER_PATH } from '@/CONST_VALUE.js'
+// const jobSearch = ref(
+//     DL_ROUTER_PATH.main_view.main_root +
+//         '/' +
+//         DL_ROUTER_PATH.main_view.children.log_main
+// )
+// const setting = ref(
+//     DL_ROUTER_PATH.main_view.main_root +
+//         '/' +
+//         DL_ROUTER_PATH.main_view.children.setting
+// )
 
-const handleOpen = (key, keyPath) => {
-    console.log('handleOpen', key, keyPath)
-}
-const handleClose = (key, keyPath) => {
-    console.log(key, keyPath)
-}
+
 </script>
 
 <style scoped>
@@ -163,4 +118,3 @@ body {
     font-family: Microsoft YaHei UI;
 }
 </style>
-

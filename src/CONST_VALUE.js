@@ -1,9 +1,12 @@
 //路由路径常量定义
 const DL_ROUTER_PATH = {
     main_view: {
-        main: '/logjobs/main',
-        job:"/logjobs/jobsearch",
-        setting:'/user/setting'
+        main_root: '/logjobs',
+        children: {
+            log_main: 'main',
+            job: 'jobsearch',
+            setting: 'user/setting'
+        }
     },
     login_view: {
         login: '/login/login',
@@ -17,7 +20,7 @@ const DL_CONST_VALUE = {
     },
     AUTH: {
         TOKEN_TIME: 'tokenTime',
-        TOKEN_TIME_VALUE:  60 * 1000
+        TOKEN_TIME_VALUE: 60 * 1000
     },
     WHITE_LIST: ['/user/login', '/user/register']
 }

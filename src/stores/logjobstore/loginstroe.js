@@ -37,7 +37,7 @@ export const LoginStore = defineStore('LoginStore', {
                         if (res.data.state.code === 200) {
                             this.setUserInfo(res.data.custom)
                             //设置用户登录有效期等信息
-                            router.push(DL_ROUTER_PATH.main_view.main)
+                            router.push(DL_ROUTER_PATH.main_view.main_root)
                             resolve()
                         } else {
                         }
