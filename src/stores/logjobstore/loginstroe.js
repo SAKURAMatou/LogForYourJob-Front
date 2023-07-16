@@ -44,8 +44,8 @@ export const LoginStore = defineStore('LoginStore', {
                 userLogin(userinfo).then((res) => {
                     Auth.setTokenTime(Date.now()).then(() => {
                         // console.log('login', res)
-                        if (res.data.state.code === 200) {
-                            this.setUserInfo(res.data.custom)
+                        if (res.state.code === 200) {
+                            this.setUserInfo(res.custom)
                             //设置用户登录有效期等信息
                             router.push(DL_ROUTER_PATH.main_view.main_root)
                             console.log(

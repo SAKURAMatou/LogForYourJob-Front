@@ -39,6 +39,10 @@ request.interceptors.request.use((config) => {
         router.push('/')
     }
 })
+
+request.interceptors.response.use((response) => {
+    return response.data
+})
 function isUrlInWhiteList(url) {
     return CONST_VALUE.WHITE_LIST.includes(url)
 }
