@@ -35,7 +35,8 @@ function getData() {
     border: 2px solid var(--unnamed, #3472d7);
     color: var(--unnamed, #3472d7);
     font-family: Microsoft YaHei UI;
-    font-size: 16px;
+
+    font-size: 18px;
     font-style: normal;
     float: right;
     /* margin-right: 71px; */

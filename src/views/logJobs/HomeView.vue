@@ -45,8 +45,6 @@ const btntext = ref('返回上级')
 //         '/' +
 //         DL_ROUTER_PATH.main_view.children.setting
 // )
-
-
 </script>
 
 <style scoped>
@@ -63,58 +61,5 @@ body {
 }
 .el-aside {
     overflow: inherit;
-}
-</style>
-<style scoped>
-#left-aside-logo {
-    display: flex;
-    height: 74px;
-    width: 240px;
-    justify-content: center;
-    align-items: center;
-    flex-shrink: 0;
-    align-self: stretch;
-    background: #fff;
-    margin-top: 16px;
-}
-
-.app-wrapper {
-    height: 100%;
-}
-
-.tac {
-    height: 100%;
-}
-
-.el-col {
-    background: var(--white, #fff);
-}
-
-#line-ap {
-    stroke-width: 1px;
-    stroke: var(--line, #d4d9db);
-    height: 0px;
-    flex-shrink: 0;
-    align-self: stretch;
-
-    margin-top: 32px;
-    margin-bottom: 32px;
-}
-
-.main-left-img {
-    height: 479px;
-    flex-shrink: 0;
-    align-self: stretch;
-    margin-top: 12px;
-}
-.left-aside-menu {
-    color: #5d7285;
-    /* font-family: Poppins; */
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 21.954px; /* 150% */
-    letter-spacing: 0.146px;
-    font-family: Microsoft YaHei UI;
 }
 </style>
