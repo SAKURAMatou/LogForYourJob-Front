@@ -21,6 +21,14 @@ export const LoginStore = defineStore('LoginStore', {
                 token: state.token,
                 avatarurl: state.avatarurl
             }
+        },
+        stateReset(state) {
+            return new Promise((resolve) => {
+                //清空浏览器本地存储信息；先请浏览器的本地存储，再重置pinia，否则pinia还能获取到信息
+                localStorage.clear()
+                state.$reset()
+                resolve()
+            })
         }
     },
     actions: {
@@ -31,6 +39,8 @@ export const LoginStore = defineStore('LoginStore', {
          */
         login(userinfo) {
             return new Promise((resolve) => {
+                let startlogin = Date.now()
+                // console.log('login', startlogin)
                 userLogin(userinfo).then((res) => {
                     Auth.setTokenTime(Date.now()).then(() => {
                         // console.log('login', res)
@@ -38,6 +48,10 @@ export const LoginStore = defineStore('LoginStore', {
                             this.setUserInfo(res.data.custom)
                             //设置用户登录有效期等信息
                             router.push(DL_ROUTER_PATH.main_view.main_root)
+                            console.log(
+                                'login-开始跳转',
+                                Date.now() - startlogin
+                            )
                             resolve()
                         } else {
                         }
@@ -49,13 +63,14 @@ export const LoginStore = defineStore('LoginStore', {
             return new Promise((resolve) => {
                 console.log('logout')
                 //重置state
-                this.$reset()
-                //清空浏览器本地存储信息
-                localStorage.clear()
-                //路由跳转根路径
-                router.push('/')
-                //TODO
-                resolve()
+                this.stateReset.then(() => {
+                    // 登陆信息清空之后跳转
+                    console.log('after reset', this.getUserInfo, localStorage)
+                    //路由跳转根路径
+                    router.push('/')
+                    //TODO
+                    resolve()
+                })
             })
         },
         setUserInfo(userInfo) {

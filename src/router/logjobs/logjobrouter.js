@@ -2,8 +2,12 @@ import { DL_ROUTER_PATH } from '@/CONST_VALUE.js'
 
 const childrenRouter = [
     {
-        path: '/',
-        redirect: DL_ROUTER_PATH.main_view.children.log_main
+        //子路由拦截空时不能添加/；并且重定向的地址必须是全路径
+        path: '',
+        redirect:
+            DL_ROUTER_PATH.main_view.main_root +
+            '/' +
+            DL_ROUTER_PATH.main_view.children.log_main
     },
     {
         path: DL_ROUTER_PATH.main_view.children.log_main,
