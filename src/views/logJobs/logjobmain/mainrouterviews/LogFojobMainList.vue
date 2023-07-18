@@ -43,6 +43,7 @@
                             circle
                             text
                             size="large"
+                            v-no-more-click
                         >
                             <template #icon>
                                 <SvgIcon name="search2"></SvgIcon>
