@@ -8,7 +8,7 @@
         <el-button
             class="head-content login-button my-login-button"
             id="head-right-button"
-            @click="getData"
+            @click=""
             ><slot name="btntext">返回上级</slot></el-button
         >
     </div>

@@ -10,13 +10,13 @@
                         <template #name>
                             {{ listCount }}
                         </template>
-                        <template #btntext>
+                        <!-- <template #btntext>
                             {{ btntext }}
-                        </template>
+                        </template> -->
                     </LogJobHeader>
                 </el-header>
                 <MainViewDivider></MainViewDivider>
-                <el-main>
+                <el-main style="position: relative">
                     <router-view></router-view>
                 </el-main>
             </el-container>
@@ -41,8 +41,6 @@ body {
 }
 
 .common-layout {
-    /* height: 1160px; */
-    /* width: 100%; */
     flex-shrink: 0;
     background: var(--background, #f0f6ff);
 }

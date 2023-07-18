@@ -88,6 +88,7 @@ const handleClose = (key, keyPath) => {
 
 .el-col {
     background: var(--white, #fff);
+    /* height: 90%; */
 }
 
 #line-ap {
