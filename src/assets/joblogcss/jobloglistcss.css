@@ -1,0 +1,42 @@
+.job-log-wrapper {
+    width: 100%;
+}
+.joblog-list-layout {
+    border-radius: 20px;
+    background: #fff;
+    padding: 24px 24px 19px 24px;
+}
+.joblog-list-pager {
+    position: absolute;
+    left: 50%; /* 水平居中 */
+    transform: translate(-50%, 0); /* 水平居中 */
+    bottom: 56px; /* 距离父元素底部 25px */
+}
+.pager {
+    position: absolute;
+    left: 50%; /* 将元素左边缘设置在父元素的中央位置 */
+    transform: translateX(
+        -50%
+    ); /* 将元素自身的宽度的一半左移，从而实现居中效果 */
+    /* 其他样式 */
+}
+.icon-search2,
+.icon-calendar {
+    width: 24px;
+    height: 24px;
+}
+
+:deep .el-table__body {
+    webkit-border-horizontal-spacing: 13px;
+    /* 水平间距-webkit-border-vertical-spacing: 13px;  // 垂直间距 */
+}
+.el-table__cell {
+    border-radius: 20px;
+    background: var(--background, #f0f6ff);
+}
+
+ .el-icon {
+    width: 24px !important;
+    height: 24px !important;
+}
+

@@ -20,7 +20,7 @@ const DL_CONST_VALUE = {
     },
     AUTH: {
         TOKEN_TIME: 'tokenTime',
-        TOKEN_TIME_VALUE: 60 * 1000
+        TOKEN_TIME_VALUE: 60 * 60 * 1000
     },
     WHITE_LIST: ['/user/login', '/user/register']
 }
