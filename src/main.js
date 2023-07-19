@@ -23,7 +23,7 @@ app.component('SvgIcon', SvgIcon)
 //添加自定义指令，没有传入指令的生命周期钩子则在mounted 和 updated都实现
 //noMoreClick实现按钮防抖动，点击之后添加禁用属性，给定时间之后再可用
 app.directive('noMoreClick', (el, binding) => {
-    console.log('noMoreClick', el)
+    // console.log('noMoreClick', el)
     el.addEventListener('click', (e) => {
         el.classList.add('is-disabled')
         el.disabled = true

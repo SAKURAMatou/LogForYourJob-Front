@@ -67,40 +67,41 @@
     </div>
 </template>
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, inject } from 'vue'
 import { getJobSearchMainList } from '@/api/logForJobUtil.js'
 import router from '@/router'
 const pager = reactive({ total: 0, currentPager: 1 })
 const tableData = ref([])
-
+const emit = defineEmits(['updateTotlal'])
+const listCount = inject('listCount')
 onMounted(() => {
     //组件挂载的时候请求列表数据
-    getJobSearchMainList().then((res) => {
-        console.log('getJobSearchMainList', res)
-        if (res.state.code === '200') {
-            pager.total = res.custom.count
-            pager.currentPager = res.custom.currentpage
-            tableData.value = res.custom.list
-        }
-        console.log(tableData.value)
-    })
+    getJobSearchMainList().then(mainListData)
 })
+
+/**
+ * 点击列表的查看详情按钮之后进入本次的列表页面
+ */
 function handleOpenJobSendList(index, row) {
-    console.log(index, row)
-    console.log(router, router.history)
-    // router.push('/logjobs/jobsearch')
+    // console.log(index, row)
+    // console.log(router, router.history)
+    router.push('/logjobs/jobsearch?guid=' + row.guid)
+}
+const mainListData = (res) => {
+    // console.log('getJobSearchMainList', res)
+    if (res.state.code === '200') {
+        pager.total = res.custom.count
+        pager.currentPager = res.custom.currentpage
+        tableData.value = res.custom.list
+        listCount.value = pager.total
+        // emit('updateTotlal', pager.total)
+    }
+    // console.log(tableData.value)
 }
 
 function handleCurrentChange(e) {
-    console.log('handleCurrentChange', e)
-    getJobSearchMainList().then((res) => {
-        console.log('getJobSearchMainList', res)
-        if (res.state.code === '200') {
-            pager.total = res.custom.count
-            pager.currentPager = res.custom.currentpage
-            tableData.value = res.custom.list
-        }
-    })
+    // console.log('handleCurrentChange', e)
+    getJobSearchMainList().then(mainListData)
 }
 </script>
 <style scoped>

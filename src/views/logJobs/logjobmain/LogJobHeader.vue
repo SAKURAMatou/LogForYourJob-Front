@@ -2,24 +2,37 @@
     <div class="head-wrapper">
         <div class="head-content head-left-text">
             <span class="title-text"> Find Jobs </span>
-            <span class="title-text"> (<slot name="count">0</slot>)</span>
+            <!-- <span class="title-text"> (<slot name="count">0</slot>)</span> -->
+            <span class="title-text"> ({{ listCount }})</span>
         </div>
 
         <el-button
-            class="head-content login-button my-login-button"
+            class="head-content login-button my-login-button hide"
             id="head-right-button"
-            @click=""
+            @click="backHandle"
+            v-show="ishide"
             ><slot name="btntext">返回上级</slot></el-button
         >
     </div>
 </template>
 <script setup>
-import { getDataTest } from '@/api/logForJobUtil.js'
-
-function getData() {
-    getDataTest().then((res) => {
-        console.log(res)
-    })
+// import { getDataTest } from '@/api/logForJobUtil.js'
+import { inject, watch, ref } from 'vue'
+import router from '@/router'
+const ishide = ref(false)
+// const guid = ref(router.query.guid)
+//头部列表数据
+const listCount = inject('listCount')
+ishide.value = router.currentRoute.value.name === 'job'
+watch(router.currentRoute, (r) => {
+    // console.log('currentRoute', r)
+    ishide.value = 'job' === r.name
+})
+/**
+ * 点击之后路由回退
+ */
+const backHandle = () => {
+    router.back()
 }
 </script>
 
@@ -62,5 +75,8 @@ function getData() {
     font-style: normal;
     font-weight: 700;
     line-height: normal;
+}
+.hide {
+    display: none;
 }
 </style>
