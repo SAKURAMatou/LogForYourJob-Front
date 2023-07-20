@@ -98,18 +98,13 @@
         </div>
     </div>
     <div class="drawer-wrapper">
-        <el-drawer
-            v-model="detail.opendrawer"
-            :title="detail.cname"
-            direction="rtl"
-            size="60%"
-        >
-            <template #header="{ close, titleId, titleClass }">
+        <el-drawer v-model="detail.opendrawer" size="60%">
+            <template #header="{ titleId }">
                 <span :id="titleId" class="titleClass">
                     {{ detail.mname }}/{{ detail.cname }}
                 </span>
             </template>
-            <el-divider />
+            <el-divider style="margin-top: 0px" class="dividerStyle" />
             <LogForJobSendDetail :detail="detail"></LogForJobSendDetail>
         </el-drawer>
     </div>
@@ -203,6 +198,7 @@ const handleDelete = (index, row) => {
 
 <style scoped>
 @import '@/assets/joblogcss/jobloglistcss.css';
+
 .icon-heart-level-1,
 .icon-heart-level-2,
 .icon-heart-level-3,
@@ -211,19 +207,22 @@ const handleDelete = (index, row) => {
     width: 96px;
     height: 48px;
 }
+
 .icon-terminal-browser,
 .icon-pencil-01,
 .icon-trash-01 {
     width: 24px;
     height: 24px;
 }
+
 .titleClass {
     color: #000;
     font-family: Microsoft YaHei UI;
     font-size: 32px;
     font-style: normal;
     font-weight: 700;
-    line-height: 25px; /* 78.125% */
+    line-height: 25px;
+    /* 78.125% */
     height: 35.565px;
     margin-top: 32.12px;
 }
@@ -232,5 +231,18 @@ const handleDelete = (index, row) => {
 .el-icon {
     width: 24px !important;
     height: 24px !important;
+}
+
+.dividerStyle {
+    stroke-width: 2px;
+    /* stroke: #dee1e6; */
+    filter: blur(2px);
+
+    stroke: #bcb6b6;
+
+    flex-shrink: 0;
+}
+.el-drawer__body {
+    padding: 5px 20px 20px 20px;
 }
 </style>
