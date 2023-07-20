@@ -1,40 +1,74 @@
 <template>
     <div class="layout">
         <LoginLogo></LoginLogo>
-        <div class="login-main" style="height: 757px;">
+        <div class="login-main" style="height: 757px">
             <div class="login-left">
                 <LoginLeftText></LoginLeftText>
                 <br />
                 <div class="login-input">
-                    <el-form ref="userValidate" :model="userForm" :rules="rules" hide-required-asterisk="true"
-                        label-position="top" class="demo-ruleForm" status-icon>
+                    <el-form
+                        ref="userValidate"
+                        :model="userForm"
+                        :rules="rules"
+                        hide-required-asterisk="true"
+                        label-position="top"
+                        class="demo-ruleForm"
+                        status-icon
+                    >
                         <el-form-item label="email" prop="email">
-                            <el-input v-model="userForm.email" placeholder="Please input email" />
+                            <el-input
+                                v-model="userForm.email"
+                                placeholder="Please input email"
+                            />
                         </el-form-item>
                         <el-form-item label="User name" prop="name">
-                            <el-input v-model="userForm.name" placeholder="Please input username" />
+                            <el-input
+                                v-model="userForm.name"
+                                placeholder="Please input username"
+                            />
                         </el-form-item>
                         <el-form-item label="Password" prop="pwd">
-                            <el-input v-model="userForm.pwd" type="password" placeholder="Please input password"
-                                autocomplete="off" show-password />
+                            <el-input
+                                v-model="userForm.pwd"
+                                type="password"
+                                placeholder="Please input password"
+                                autocomplete="off"
+                                show-password
+                            />
                         </el-form-item>
                         <el-form-item label="Confirm" prop="checkPass">
-                            <el-input v-model="userForm.checkPass" type="password" placeholder="Please input password again"
-                                autocomplete="off" show-password />
+                            <el-input
+                                v-model="userForm.checkPass"
+                                type="password"
+                                placeholder="Please input password again"
+                                autocomplete="off"
+                                show-password
+                            />
                         </el-form-item>
                         <br />
 
-                        <el-button type="primary" class="login-button my-login-button" style="
+                        <el-button
+                            type="primary"
+                            class="login-button my-login-button"
+                            style="
                                 width: 100%;
                                 height: 39px;
                                 border-radius: 6px;
                                 background: #000;
-                            " @click="handleLogin">注册</el-button>
+                            "
+                            @click="handleLogin"
+                            v-no-more-click
+                            >注册</el-button
+                        >
                         <div>
                             <LoginButtomText>
-                                <template #l>Already have an Account ? </template>
+                                <template #l
+                                    >Already have an Account ?
+                                </template>
                                 <template #r>
-                                    <RouterLink to="/login/login">login</RouterLink>
+                                    <RouterLink to="/login/login"
+                                        >login</RouterLink
+                                    >
                                 </template>
                             </LoginButtomText>
                         </div>
@@ -59,14 +93,14 @@ import { ElMessage } from 'element-plus'
 const userForm = ref({
     name: '',
     pwd: '',
-    email: "",
+    email: '',
     checkPass: ''
 })
 //校验的对象
 const userValidate = ref({
     name: '',
     pwd: '',
-    email: "",
+    email: '',
     checkPass: ''
 })
 
@@ -99,16 +133,14 @@ const rules = reactive({
         { required: true, message: '输入username', trigger: 'blur' }
         // { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
     ],
-    pwd: [
-        { validator: validatePwd, trigger: 'blur' }
-    ],
+    pwd: [{ validator: validatePwd, trigger: 'blur' }],
     email: [
         { required: true, message: '输入与偶像', trigger: 'blur' },
         {
             type: 'email',
             message: 'Please input correct email address',
-            trigger: ['blur', 'change'],
-        },
+            trigger: ['blur', 'change']
+        }
     ],
     checkPass: [{ validator: checkPass, trigger: 'blur' }]
 })
@@ -123,7 +155,7 @@ const handleRegister = () => {
             ElMessage.error('失败！')
             return false
         }
-    });
+    })
 }
 </script>
 <style scoped>

@@ -57,6 +57,7 @@
                                 border-radius: 6px;
                                 background: #000;
                             "
+                            v-no-more-click
                             @click="handleLogin"
                             >登陆</el-button
                         >
