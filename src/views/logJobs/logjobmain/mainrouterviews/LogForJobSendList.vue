@@ -104,14 +104,18 @@
             direction="rtl"
             size="60%"
         >
-            <LogForJobSendDetail></LogForJobSendDetail>
+            <LogForJobSendDetail :detail="detail"></LogForJobSendDetail>
         </el-drawer>
     </div>
 </template>
 <script setup>
 import router from '@/router'
 import { ref, onMounted, inject, reactive } from 'vue'
-import { getsendList, deleteSendLog } from '@/api/logForJobUtil.js'
+import {
+    getsendList,
+    deleteSendLog,
+    getSendLogDetail
+} from '@/api/logForJobUtil.js'
 import LogForJobSendDetail from '@/views/logJobs/logjobmain/mainrouterviews/LogForJobSendDetail.vue'
 const guid = ref(router.currentRoute.value.query.guid)
 console.log('字列表', guid)
@@ -123,6 +127,7 @@ const listCount = inject('listCount')
 //请求列表数据的入参对象
 const dataBean = reactive({
     mguid: guid.value,
+    guid: '',
     cpage: pager.currentPager,
     pagesize: pager.pageSize,
     startdate: '',
@@ -132,12 +137,24 @@ const dataBean = reactive({
 })
 const detail = reactive({
     opendrawer: false,
-    cname: '公司名称'
+    cname: '公司名称',
+    mname: '',
+    jobname: '',
+    salary: '',
+    heartlevel: '',
+    sendtime: '',
+    cwebsite: '',
+    jobdescription: '',
+    requirement: '',
+    comment: ''
 })
 
 onMounted(() => {
     getsendListData()
 })
+/**
+ * 获取列表数据
+ */
 const getsendListData = () => {
     getsendList(dataBean).then((res) => {
         if (res.state.code === '200') {
@@ -157,7 +174,18 @@ const getsendListData = () => {
  */
 const handleOpenDetail = (index, row) => {
     //打开详情，先请求详情，成功之后detail.opendrawer=true
-    detail.opendrawer = true
+
+    getSendLogDetail(row.guid).then((res) => {
+        console.log(res)
+        if (res.state.code === '200') {
+            // detail =
+            Object.assign(detail, res.custom)
+            detail.opendrawer = true
+            console.log('detail', detail)
+        } else {
+        }
+        //
+    })
 }
 const handleEdit = (index, row) => {}
 const handleDelete = (index, row) => {

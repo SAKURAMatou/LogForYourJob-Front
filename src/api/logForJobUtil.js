@@ -33,7 +33,10 @@ export function deleteSendLog(data) {
  * @returns
  */
 export function getSendLogDetail(data) {
-    return request.post('/logforyourjobs/getSendLogDetail', { params: data })
+    var param = {
+        guid: data
+    }
+    return request.post('/logforyourjobs/getSendLogDetail', { params: param })
 }
 
 /**
