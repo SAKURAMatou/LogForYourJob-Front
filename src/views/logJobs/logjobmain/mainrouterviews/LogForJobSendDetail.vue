@@ -1,5 +1,4 @@
 <template>
-    <h1>公司详情</h1>
     <h2>{{ detail.mname }}/{{ detail.cname }}</h2>
 </template>
 <script setup>

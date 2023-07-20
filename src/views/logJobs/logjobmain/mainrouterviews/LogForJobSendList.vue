@@ -104,6 +104,12 @@
             direction="rtl"
             size="60%"
         >
+            <template #header="{ close, titleId, titleClass }">
+                <span :id="titleId" class="titleClass">
+                    {{ detail.mname }}/{{ detail.cname }}
+                </span>
+            </template>
+            <el-divider />
             <LogForJobSendDetail :detail="detail"></LogForJobSendDetail>
         </el-drawer>
     </div>
@@ -210,6 +216,16 @@ const handleDelete = (index, row) => {
 .icon-trash-01 {
     width: 24px;
     height: 24px;
+}
+.titleClass {
+    color: #000;
+    font-family: Microsoft YaHei UI;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 25px; /* 78.125% */
+    height: 35.565px;
+    margin-top: 32.12px;
 }
 </style>
 <style>
