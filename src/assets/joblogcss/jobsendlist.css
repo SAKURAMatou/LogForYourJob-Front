@@ -1,0 +1,56 @@
+.icon-heart-level-1,
+.icon-heart-level-2,
+.icon-heart-level-3,
+.icon-heart-level-4,
+.icon-heart-level-0 {
+    width: 96px;
+    height: 48px;
+}
+
+.icon-terminal-browser,
+.icon-pencil-01,
+.icon-trash-01 {
+    width: 24px;
+    height: 24px;
+}
+
+.titleClass {
+    color: #000;
+    font-family: Microsoft YaHei UI;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 25px;
+    /* 78.125% */
+    height: 35.565px;
+    margin-top: 32.12px;
+}
+.job-send-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 20px;
+    background: #fff;
+    padding: 10px 10px 10px 10px;
+}
+.job-send-title-search {
+    flex: 1; /* 让条件区域占据剩余空间 */
+    margin-right: 100px;
+    border-radius: 21px;
+    background: var(--background, #f0f6ff);
+    padding: 14px 14px 14px 14px;
+}
+.button-container {
+    display: flex;
+    flex-direction: column;
+    margin-right: 61px;
+    /* float:right; */
+    /* position: relative; */
+}
+
+.job-send-button {
+    border-radius: 6px;
+    border: 1.5px solid var(--unnamed, #3472d7);
+    color: var(--unnamed, #3472d7);
+    font-family: Microsoft YaHei UI;
+}
