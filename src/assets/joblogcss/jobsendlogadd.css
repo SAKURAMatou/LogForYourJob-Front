@@ -1,0 +1,52 @@
+.el-row {
+    width: 100%;
+}
+.el-form--inline .el-form-item-half {
+    flex: 1 0 40%;
+    align-items: center;
+}
+.send-log-add-form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-left: 32px;
+}
+.send-log-add-form .el-input {
+    --el-input-width: 100%;
+}
+/* .el-input-number .el-input {
+    --el-input-width: 100%;
+} */
+.el-form--inline .el-input {
+    width: 90%;
+}
+
+/* 最后一行样式 */
+
+.input-three-three {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.input-comment {
+    flex: 1;
+}
+.button-row {
+    position: relative;
+}
+
+.button-group {
+    display: flex;
+
+    justify-content: space-between;
+    flex-direction: initial;
+}
+.button-item {
+    margin-left: 67px;
+}
+.job-send-button {
+    border-radius: 6px;
+    border: 1.5px solid var(--unnamed, #3472d7);
+    color: var(--unnamed, #3472d7);
+    font-family: Microsoft YaHei UI;
+}

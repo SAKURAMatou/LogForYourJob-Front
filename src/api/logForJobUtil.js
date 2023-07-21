@@ -47,3 +47,12 @@ export function getSendLogDetail(data) {
 export function modifySendLog(data) {
     return request.post('/logforyourjobs/modifySendLog', { params: data })
 }
+
+/**
+ * 添加投递记录
+ * @param {*} data
+ * @returns
+ */
+export function addSendLog(data) {
+    return request.post('/logforyourjobs/addSendLog', { params: data })
+}

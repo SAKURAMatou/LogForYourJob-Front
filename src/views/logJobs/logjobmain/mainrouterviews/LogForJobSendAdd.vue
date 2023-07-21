@@ -2,22 +2,36 @@
     <div class="send-log-add-wrapper">
         <el-form
             :model="dataBean"
+            ref="dataBeanRuleRef"
             label-width="120px"
             :inline="true"
+            :rules="dataBeanRule"
             label-position="top"
             style="padding-top: 10px"
             class="send-log-add-form"
         >
             <el-row>
-                <el-form-item label="公司名称">
+                <el-form-item
+                    label="公司名称"
+                    class="el-form-item-half"
+                    prop="cname"
+                >
                     <el-input v-model="dataBean.cname" class="input-half" />
                 </el-form-item>
-                <el-form-item label="岗位名称">
+                <el-form-item
+                    label="岗位名称"
+                    class="el-form-item-half"
+                    prop="jobname"
+                >
                     <el-input v-model="dataBean.jobname" class="input-half" />
                 </el-form-item>
             </el-row>
             <el-row>
-                <el-form-item label="薪资">
+                <el-form-item
+                    label="薪资"
+                    class="el-form-item-half"
+                    prop="salary"
+                >
                     <el-input-number
                         v-model="dataBean.salary"
                         min="0"
@@ -25,45 +39,105 @@
                         class=".input-half"
                     />&nbsp;K
                 </el-form-item>
-                <el-form-item label="公司网址">
+                <el-form-item label="公司网址" class="el-form-item-half">
                     <el-input
                         v-model="dataBean.cwebsite"
                         placeholder="输入公司网址"
                         class="input-with-select input-half"
                     >
-                        <template #prepend>
-                            <el-select
-                                v-model="dataBean.cwebsitepre"
-                                placeholder="Select"
-                                style="width: 115px"
-                            >
-                                <el-option label="http" value="http" />
-                                <el-option label="https" value="https" />
-                            </el-select>
-                        </template>
-                        <!-- <template #append>
-                            <el-button :icon="Search" />
-                        </template> -->
                     </el-input>
+                </el-form-item>
+            </el-row>
+            <el-row class="input-two-three">
+                <el-form-item
+                    label="岗位职责"
+                    prop="jobdescription"
+                    class="el-form-item-half"
+                >
+                    <el-input
+                        v-model="dataBean.jobdescription"
+                        placeholder="请输入岗位职责"
+                        show-word-limit
+                        type="textarea"
+                    />
+                </el-form-item>
+                <el-form-item
+                    label="意向程度"
+                    prop="heartlevel"
+                    class="el-form-item-half"
+                >
+                    <el-select
+                        placeholder="选择意向程度"
+                        v-model="dataBean.heartlevel"
+                        clearable
+                    >
+                        <el-option label="毫无波澜" value="0" />
+                        <el-option label="略有心动" value="1" />
+                        <el-option label="微微心动" value="2" />
+                        <el-option label="强烈心动" value="3" />
+                        <el-option label="震撼心动" value="4" />
+                    </el-select>
+                </el-form-item>
+            </el-row>
+            <el-row class="input-two-three">
+                <el-form-item
+                    label="岗位要求"
+                    prop="requirement"
+                    class="el-form-item-half"
+                >
+                    <el-input
+                        v-model="dataBean.requirement"
+                        placeholder="请输入岗位要求"
+                        show-word-limit
+                        type="textarea"
+                    />
+                </el-form-item>
+                <el-form-item class="el-form-item-half"></el-form-item>
+            </el-row>
+            <el-row class="input-three-three">
+                <el-form-item
+                    label="评价"
+                    prop="requirement"
+                    class="input-comment"
+                >
+                    <el-input
+                        v-model="dataBean.requirement"
+                        placeholder="请输入评价"
+                        show-word-limit
+                        type="textarea"
+                    />
+                </el-form-item>
+                <el-form-item>
+                    <div class="button-row">
+                        <div class="button-group">
+                            <div class="button-item">
+                                <el-button
+                                    class="job-send-button"
+                                    @click="saveAndNew"
+                                    v-no-more-click
+                                >
+                                    保存并新增
+                                </el-button>
+                            </div>
+                            <div class="button-item">
+                                <el-button
+                                    class="job-send-button"
+                                    @click="emit('jobSendLogAddClose')"
+                                    v-no-more-click
+                                >
+                                    确定新增
+                                </el-button>
+                            </div>
+                        </div>
+                    </div>
                 </el-form-item>
             </el-row>
         </el-form>
     </div>
-    <div class="button-group">
-        <el-button class="job-send-button" @click="saveAndNew" v-no-more-click>
-            保存并新增
-        </el-button>
-        <el-button
-            class="job-send-button"
-            @click="emit('jobSendLogAddClose')"
-            v-no-more-click
-        >
-            确定新增
-        </el-button>
-    </div>
 </template>
 <script setup>
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
+import { addSendLog } from '@/api/logForJobUtil.js'
 
 const props = defineProps(['mguid'])
 const emit = defineEmits(['jobSendLogAddClose'])
@@ -82,9 +156,35 @@ const dataBean = reactive({
     comment: '',
     cwebsitepre: 'http'
 })
+//进行表单校验的对象
+const dataBeanRuleRef = ref()
+const dataBeanRule = reactive({
+    cname: [
+        {
+            required: true,
+            message: '输入公司名称',
+            trigger: 'blur'
+        }
+    ],
+    jobname: [
+        {
+            required: true,
+            message: '输入岗位名称',
+            trigger: 'blur'
+        }
+    ],
+    salary: [],
+    heartlevel: [],
+    requirement: []
+})
+
+/**
+ * 添加新的投递记录
+ */
+function addNewSendLog() {}
 
 // @click="dialogShow = false"
-console.log('dialogShow', props.mguid, dataBean)
+// console.log('dialogShow', props.mguid, dataBean)
 function saveAndNew() {
     dataBean.guid = ''
     dataBean.cname = ''
@@ -100,26 +200,5 @@ function saveAndNew() {
 </script>
 
 <style scoped>
-.el-row {
-    width: 100%;
-}
-.el-form--inline .el-form-item {
-    flex: 1 0 40%;
-    align-items: center;
-}
-.send-log-add-form {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin-left: 32px;
-}
-.send-log-add-form .el-input {
-    --el-input-width: 100%;
-}
-/* .el-input-number .el-input {
-    --el-input-width: 100%;
-} */
-.el-form--inline .el-input {
-    width: 90%;
-}
+@import '@/assets/joblogcss/jobsendlogadd.css';
 </style>

@@ -197,6 +197,7 @@
             :close-on-press-escape="false"
             :before-close="beforeAdd"
             title="新增投递记录"
+            width="70%"
         >
             <LogForJobSendAdd
                 @jobSendLogAddClose="jobSendLogAdd = false"
@@ -355,10 +356,6 @@ function initRowStyle(row, rowIndex) {
     padding: 5px 20px 20px 20px;
 }
 
-/* tr { */
-/* display: block; */
-/* margin-top: 10px; */
-/* } */
 ::v-deep .el-table__body {
     /* webkit-border-horizontal-spacing: 13px; */
     -webkit-border-vertical-spacing: 13px;
