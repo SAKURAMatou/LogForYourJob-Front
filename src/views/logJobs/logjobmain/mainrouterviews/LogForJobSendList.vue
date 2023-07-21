@@ -1,11 +1,14 @@
 <template>
     <h1>投递记录列表</h1>
     <div class="job-log-wrapper">
+        <!--  -->
         <div class="joblog-list-layout">
             <el-table
                 :data="tableData"
                 style="width: 100%"
                 max-height="600px"
+                size="large"
+                :row-style="initRowStyle"
                 row-class-name="table-row-class"
             >
                 <el-table-column label="公司名称">
@@ -119,7 +122,7 @@ import {
 } from '@/api/logForJobUtil.js'
 import LogForJobSendDetail from '@/views/logJobs/logjobmain/mainrouterviews/LogForJobSendDetail.vue'
 const guid = ref(router.currentRoute.value.query.guid)
-console.log('字列表', guid)
+
 //列表绑定数据的对象
 const tableData = ref([])
 //分页的对象
@@ -177,12 +180,11 @@ const handleOpenDetail = (index, row) => {
     //打开详情，先请求详情，成功之后detail.opendrawer=true
 
     getSendLogDetail(row.guid).then((res) => {
-        console.log(res)
         if (res.state.code === '200') {
             // detail =
             Object.assign(detail, res.custom)
             detail.opendrawer = true
-            console.log('detail', detail)
+            // console.log('detail', detail)
         } else {
         }
         //
@@ -193,6 +195,19 @@ const handleDelete = (index, row) => {
     console.log('handleDelete', row.guid)
     //删除数据成功之后重新请求列表数据
     deleteSendLog(row.guid).then(getsendListData)
+}
+
+function handleCurrentChange(e) {}
+
+function initRowStyle(row, rowIndex) {
+    return {
+        'border-radius': '20px',
+        'box-shadow': '0 0 0 10px #F0F6FF',
+        'background': 'var(--background, #F0F6FF)'
+        // 'outline': 'var(--background, #F0F6FF)',
+        // 'padding-top': '24px',
+        // 'padding-buttom': '24px',
+    }
 }
 </script>
 
@@ -244,5 +259,14 @@ const handleDelete = (index, row) => {
 }
 .el-drawer__body {
     padding: 5px 20px 20px 20px;
+}
+
+/* tr { */
+/* display: block; */
+/* margin-top: 10px; */
+/* } */
+::v-deep .el-table__body {
+    /* webkit-border-horizontal-spacing: 13px; */
+    -webkit-border-vertical-spacing: 13px;
 }
 </style>

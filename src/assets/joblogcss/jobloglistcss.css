@@ -26,10 +26,7 @@
     height: 24px;
 }
 
-:deep .el-table__body {
-    webkit-border-horizontal-spacing: 13px;
-    /* 水平间距-webkit-border-vertical-spacing: 13px;  // 垂直间距 */
-}
+
 .el-table__cell {
     border-radius: 20px;
     background: var(--background, #f0f6ff);

@@ -21,12 +21,38 @@
     </div>
     <!-- style="margin-top: 0px"  -->
     <el-divider class="dividerStyle" />
+
+    <el-descriptions class="detail-description-title" title="岗位职责">
+        <el-descriptions-item
+            class-name="detail-description-text"
+            label="&nbsp;&nbsp;&nbsp;&nbsp;"
+            >{{ detail.jobdescription }}</el-descriptions-item
+        >
+    </el-descriptions>
+
+    <el-descriptions class="detail-description-title" title="岗位要求">
+        <el-descriptions-item
+            class-name="detail-description-text"
+            label="&nbsp;&nbsp;&nbsp;&nbsp;"
+            >{{ detail.requirement }}</el-descriptions-item
+        >
+    </el-descriptions>
+
+    <el-divider class="dividerStyle" />
+    <div>
+        <el-descriptions class="detail-description-title" title="我的评价">
+            <el-descriptions-item
+                class-name="detail-description-text"
+                label="&nbsp;&nbsp;&nbsp;&nbsp;"
+                >{{ detail.comment }}</el-descriptions-item
+            >
+        </el-descriptions>
+    </div>
 </template>
 <script setup>
 const prop = defineProps({
     detail: Object
 })
-console.log('ziye', prop.detail)
 </script>
 
 <style scoped>
@@ -51,7 +77,7 @@ a {
     white-space: nowrap; /* Prevent the text from wrapping to the next line */
     color: #000;
     font-family: Microsoft YaHei UI;
-    font-size: 20px;
+    font-size: 18px;
     font-style: normal;
     font-weight: 400;
     line-height: 25px; /* 125% */
@@ -66,5 +92,26 @@ a {
 .svg-icon-heart {
     width: 130px;
     height: 36.712px;
+}
+</style>
+<style>
+.detail-description-text {
+    color: #000;
+    font-family: Microsoft YaHei UI;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 25px; /* 125% */
+    letter-spacing: 0.6px;
+}
+.detail-description-title,
+.el-descriptions__title {
+    color: #171a1f;
+    font-family: Microsoft YaHei UI;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 25px; /* 125% */
+    letter-spacing: 0.6px;
 }
 </style>
