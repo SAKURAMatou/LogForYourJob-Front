@@ -200,6 +200,7 @@
         >
             <LogForJobSendAdd
                 @jobSendLogAddClose="jobSendLogAdd = false"
+                :mguid="guid"
             ></LogForJobSendAdd>
         </el-dialog>
     </div>
