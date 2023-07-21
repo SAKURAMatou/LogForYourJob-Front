@@ -1,5 +1,83 @@
 <template>
-    <h1>投递记录列表</h1>
+    <div class="job-send-title">
+        <!-- 投递记录列表 -->
+        <div class="job-send-title-search">
+            <el-form
+                :model="dataBean"
+                label-width="120px"
+                :inline="true"
+                style="padding-top: 10px"
+            >
+                <el-form-item label="公司名称">
+                    <el-input
+                        placeholder="请输入公司名称"
+                        v-model="dataBean.cname"
+                        clearable
+                    />
+                </el-form-item>
+                <el-form-item label="意向程度">
+                    <el-select
+                        placeholder="选择意向程度"
+                        v-model="dataBean.heartlevel"
+                        clearable
+                    >
+                        <el-option label="毫无波澜" value="0" />
+                        <el-option label="略有心动" value="1" />
+                        <el-option label="微微心动" value="2" />
+                        <el-option label="强烈心动" value="3" />
+                        <el-option label="震撼心动" value="4" />
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="薪资范围">
+                    <el-col :span="11">
+                        <el-input-number
+                            v-model="dataBean.salarydown"
+                            clearable
+                            :min="0"
+                            :max="10"
+                            placeholder="选择薪资下限"
+                            controls-position="right"
+                        />
+                    </el-col>
+                    <el-col :span="2" class="text-center">
+                        <span class="text-gray-500">-</span>
+                    </el-col>
+                    <el-col :span="11">
+                        <el-input-number
+                            v-model="dataBean.salaryup"
+                            clearable
+                            :min="0"
+                            :max="10"
+                            placeholder="选择薪资上限"
+                            controls-position="right"
+                        />
+                    </el-col>
+                </el-form-item>
+            </el-form>
+        </div>
+        <div class="button-container">
+            <div style="margin-bottom: 28px">
+                <el-button
+                    class="job-send-button"
+                    @click="jobsendlistsearch"
+                    v-no-more-click
+                >
+                    搜索
+                </el-button>
+            </div>
+            <div>
+                <el-button
+                    class="job-send-button"
+                    @click="jobSendLogAdd = true"
+                    v-no-more-click
+                >
+                    新增
+                </el-button>
+            </div>
+        </div>
+    </div>
+    <el-divider />
+
     <div class="job-log-wrapper">
         <!--  -->
         <div class="joblog-list-layout">
@@ -111,6 +189,21 @@
             <LogForJobSendDetail :detail="detail"></LogForJobSendDetail>
         </el-drawer>
     </div>
+    <div class="job-send-log-dialog-add">
+        <el-dialog
+            v-model="jobSendLogAdd"
+            :destroy-on-close="true"
+            :close-on-click-modal="false"
+            :close-on-press-escape="false"
+            :before-close="beforeAdd"
+            title="新增投递记录"
+        >
+            <LogForJobSendAdd
+                @jobSendLogAddClose="jobSendLogAdd = false"
+            ></LogForJobSendAdd>
+        </el-dialog>
+    </div>
+    <div class="job-send-log-dialog-edit"></div>
 </template>
 <script setup>
 import router from '@/router'
@@ -121,14 +214,17 @@ import {
     getSendLogDetail
 } from '@/api/logForJobUtil.js'
 import LogForJobSendDetail from '@/views/logJobs/logjobmain/mainrouterviews/LogForJobSendDetail.vue'
+import LogForJobSendAdd from '@/views/logJobs/logjobmain/mainrouterviews/LogForJobSendAdd.vue'
+
 const guid = ref(router.currentRoute.value.query.guid)
 
 //列表绑定数据的对象
 const tableData = ref([])
+const jobSendLogAdd = ref(false)
 //分页的对象
 const pager = reactive({ total: 0, currentPager: 1, pageSize: 10 })
 const listCount = inject('listCount')
-//请求列表数据的入参对象
+//请求列表数据的入参对象,即搜索条件
 const dataBean = reactive({
     mguid: guid.value,
     guid: '',
@@ -136,9 +232,14 @@ const dataBean = reactive({
     pagesize: pager.pageSize,
     startdate: '',
     enddate: '',
+    salarydown: '',
+    salaryup: '',
     cname: '',
     heartlevel: ''
 })
+/**
+ * 点击详情按钮之后详情页的数据对象
+ */
 const detail = reactive({
     opendrawer: false,
     cname: '公司名称',
@@ -178,7 +279,6 @@ const getsendListData = () => {
  */
 const handleOpenDetail = (index, row) => {
     //打开详情，先请求详情，成功之后detail.opendrawer=true
-
     getSendLogDetail(row.guid).then((res) => {
         if (res.state.code === '200') {
             // detail =
@@ -192,13 +292,33 @@ const handleOpenDetail = (index, row) => {
 }
 const handleEdit = (index, row) => {}
 const handleDelete = (index, row) => {
-    console.log('handleDelete', row.guid)
     //删除数据成功之后重新请求列表数据
     deleteSendLog(row.guid).then(getsendListData)
 }
+function jobsendlistsearch() {
+    getsendListData()
+}
 
-function handleCurrentChange(e) {}
+/**
+ * 翻页操作事件
+ * @param {*} e:翻页后页码
+ */
+function handleCurrentChange(e) {
+    dataBean.cpage = e
+    // console.log('handleCurrentChange', e, dataBean)
+    // getsendListData()
+}
 
+function beforeAdd(e) {
+    console.log('beforeAdd', e)
+    jobSendLogAdd.value = false
+}
+
+/**
+ * 自定义列表的样式方法
+ * @param {*} row
+ * @param {*} rowIndex
+ */
 function initRowStyle(row, rowIndex) {
     return {
         'border-radius': '20px',
@@ -213,34 +333,7 @@ function initRowStyle(row, rowIndex) {
 
 <style scoped>
 @import '@/assets/joblogcss/jobloglistcss.css';
-
-.icon-heart-level-1,
-.icon-heart-level-2,
-.icon-heart-level-3,
-.icon-heart-level-4,
-.icon-heart-level-0 {
-    width: 96px;
-    height: 48px;
-}
-
-.icon-terminal-browser,
-.icon-pencil-01,
-.icon-trash-01 {
-    width: 24px;
-    height: 24px;
-}
-
-.titleClass {
-    color: #000;
-    font-family: Microsoft YaHei UI;
-    font-size: 32px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 25px;
-    /* 78.125% */
-    height: 35.565px;
-    margin-top: 32.12px;
-}
+@import '@/assets/joblogcss/jobsendlist.css';
 </style>
 <style>
 .el-icon {
