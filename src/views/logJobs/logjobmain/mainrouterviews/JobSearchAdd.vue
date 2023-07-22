@@ -22,7 +22,7 @@
                 <el-form-item
                     label="开始时间"
                     class="el-form-item-half"
-                    prop="mname"
+                    prop="startdate"
                 >
                     <el-date-picker
                         v-model="dataBean.startdate"
@@ -130,14 +130,14 @@ function addJobSeachLog() {
     dataBeanRuleRef.value.validate((valid) => {
         if (valid) {
             console.log('addJobSeachLog', dataBean)
-            // addJobSearchLog(dataBean).then((res) => {
-            //     ElMessageBox.alert('新增成功，祝君找工作顺利！', '提示', {
-            //         confirmButtonText: '确定',
-            //         callback: (action) => {
-            //             emit('jobSearchLogAddClose')
-            //         }
-            //     })
-            // })
+            addJobSearchLog(dataBean).then((res) => {
+                ElMessageBox.alert('新增成功，祝君找工作顺利！', '提示', {
+                    confirmButtonText: '确定',
+                    callback: (action) => {
+                        emit('jobSearchLogAddClose')
+                    }
+                })
+            })
         }
     })
 }
