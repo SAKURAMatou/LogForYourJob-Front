@@ -215,6 +215,7 @@ import {
     deleteSendLog,
     getSendLogDetail
 } from '@/api/logForJobUtil.js'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import LogForJobSendDetail from '@/views/logJobs/logjobmain/mainrouterviews/LogForJobSendDetail.vue'
 import LogForJobSendAdd from '@/views/logJobs/logjobmain/mainrouterviews/LogForJobSendAdd.vue'
 
@@ -294,8 +295,25 @@ const handleOpenDetail = (index, row) => {
 }
 const handleEdit = (index, row) => {}
 const handleDelete = (index, row) => {
-    //删除数据成功之后重新请求列表数据
-    deleteSendLog(row.guid).then(getsendListData)
+    ElMessageBox.confirm(`确定要删除${row.cname}的投递记录吗?`, '确认', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+    }).then(() => {
+        //删除数据成功之后重新请求列表数据
+        deleteSendLog(row.guid).then((res) => {
+            if (res.state.code === '200') {
+                //删除成功
+                ElMessage({
+                    message: '删除成功！',
+                    type: 'success'
+                })
+                getsendListData()
+            } else {
+                ElMessage({ message: res.state.msg, type: 'warning' })
+            }
+        })
+    })
 }
 function jobsendlistsearch() {
     getsendListData()

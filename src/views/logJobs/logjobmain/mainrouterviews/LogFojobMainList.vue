@@ -225,7 +225,7 @@ function beforeAdd() {
  */
 function finishSearchLog(index, row) {
     // console.log('finishSearchLog', row)
-    ElMessageBox.confirm(`确定要结束求${row.name}吗?`, '确认', {
+    ElMessageBox.confirm(`确定要结束${row.name}吗?`, '确认', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
