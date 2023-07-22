@@ -75,19 +75,38 @@
                 </el-table-column>
                 <el-table-column label="操作" width="100">
                     <template #default="scope">
-                        <el-button
-                            @click="
-                                handleOpenJobSendList(scope.$index, scope.row)
-                            "
-                            circle
-                            text
-                            size="large"
-                            v-no-more-click
-                        >
-                            <template #icon>
-                                <SvgIcon name="search2"></SvgIcon>
-                            </template>
-                        </el-button>
+                        <div class="job-search-list-operation">
+                            <el-button
+                                @click="
+                                    handleOpenJobSendList(
+                                        scope.$index,
+                                        scope.row
+                                    )
+                                "
+                                circle
+                                text
+                                size="large"
+                                v-no-more-click
+                            >
+                                <template #icon>
+                                    <SvgIcon name="search2"></SvgIcon>
+                                </template>
+                            </el-button>
+                            <el-button
+                                @click="
+                                    finishSearchLog(scope.$index, scope.row)
+                                "
+                                circle
+                                text
+                                size="large"
+                                v-no-more-click
+                                v-if="scope.row.isend === '0'"
+                            >
+                                <template #icon>
+                                    <SvgIcon name="check"></SvgIcon>
+                                </template>
+                            </el-button>
+                        </div>
                     </template>
                 </el-table-column>
             </el-table>
@@ -119,7 +138,8 @@
 </template>
 <script setup>
 import { ref, reactive, onMounted, inject } from 'vue'
-import { getJobSearchMainList } from '@/api/logForJobUtil.js'
+import { getJobSearchMainList, finishJobSeachLog } from '@/api/logForJobUtil.js'
+import { ElMessage, ElMessageBox } from 'element-plus'
 
 import JobSearchAdd from '@/views/logJobs/logjobmain/mainrouterviews/JobSearchAdd.vue'
 import router from '@/router'
@@ -152,6 +172,7 @@ function handleOpenJobSendList(index, row) {
     // console.log(router, router.history)
     router.push('/logjobs/jobsearch?guid=' + row.guid)
 }
+
 /**
  * 处理请求列表数据之后的返回值
  * @param {*} res
@@ -195,6 +216,34 @@ function beforeAdd() {
         .then(() => {
             jobSearchLogAdd.value = false
         })
+}
+
+/**
+ * 办结找工作记录
+ * @param {*} index
+ * @param {*} row
+ */
+function finishSearchLog(index, row) {
+    // console.log('finishSearchLog', row)
+    ElMessageBox.confirm(`确定要结束求${row.name}吗?`, '确认', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+    }).then(() => {
+        // console.log('finishJobSeachLog-确认')
+        finishJobSeachLog().then((res) => {
+            if (res.state.code === '200') {
+                //办结成功之后是否需要等列表刷新之后再提示，待定
+                ElMessage({
+                    message: '办结成功！',
+                    type: 'success'
+                })
+                jobsendlistsearch()
+            } else {
+                ElMessage({ message: res.state.msg, type: 'warning' })
+            }
+        })
+    })
 }
 </script>
 <style scoped>

@@ -129,14 +129,21 @@ const shortcuts = [
 function addJobSeachLog() {
     dataBeanRuleRef.value.validate((valid) => {
         if (valid) {
-            console.log('addJobSeachLog', dataBean)
+            // console.log('addJobSeachLog', dataBean)
             addJobSearchLog(dataBean).then((res) => {
-                ElMessageBox.alert('新增成功，祝君找工作顺利！', '提示', {
-                    confirmButtonText: '确定',
-                    callback: (action) => {
-                        emit('jobSearchLogAddClose')
-                    }
-                })
+                if (res.state.code === '200') {
+                    ElMessageBox.alert('新增成功，祝君找工作顺利！', '提示', {
+                        confirmButtonText: '确定',
+                        callback: (action) => {
+                            emit('jobSearchLogAddClose')
+                        }
+                    })
+                } else {
+                    ElMessage({
+                        message: res.state.msg,
+                        type: 'warning'
+                    })
+                }
             })
         }
     })

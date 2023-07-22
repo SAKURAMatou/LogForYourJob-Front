@@ -21,19 +21,22 @@
     /* 其他样式 */
 }
 .icon-search2,
-.icon-calendar {
+.icon-calendar,
+.icon-check {
     width: 24px;
     height: 24px;
 }
-
 
 .el-table__cell {
     border-radius: 20px;
     background: var(--background, #f0f6ff);
 }
 
- .el-icon {
+.el-icon {
     width: 24px !important;
     height: 24px !important;
 }
 
+.job-search-list-operation {
+    display: flex;
+}

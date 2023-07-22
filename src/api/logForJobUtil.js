@@ -57,6 +57,19 @@ export function addSendLog(data) {
     return request.post('/logforyourjobs/addSendLog', { params: data })
 }
 
+/**
+ * 新增找工作记录
+ * @param {*} data
+ * @returns
+ */
 export function addJobSearchLog(data) {
     return request.post('/logforyourjobs/addJobSearchLog', { params: data })
+}
+/**
+ * 办结找工作记录
+ * @param {*} data
+ * @returns
+ */
+export function finishJobSeachLog(data) {
+    return request.post('/logforyourjobs/finishJobSeachLog', { params: data })
 }
