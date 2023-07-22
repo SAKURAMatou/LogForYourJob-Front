@@ -56,3 +56,7 @@ export function modifySendLog(data) {
 export function addSendLog(data) {
     return request.post('/logforyourjobs/addSendLog', { params: data })
 }
+
+export function addJobSearchLog(data) {
+    return request.post('/logforyourjobs/addJobSearchLog', { params: data })
+}

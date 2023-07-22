@@ -1,5 +1,44 @@
 <template>
-    <h1>找工作记录列表</h1>
+    <!-- <h1>找工作记录列表</h1> -->
+    <div class="job-send-title">
+        <div class="job-send-title-search">
+            <el-form
+                :model="dataBean"
+                label-width="120px"
+                :inline="true"
+                style="padding-top: 10px"
+            >
+                <el-form-item label="记录名称">
+                    <el-input
+                        placeholder="请输入记录名称"
+                        v-model="dataBean.mname"
+                        clearable
+                    />
+                </el-form-item>
+            </el-form>
+        </div>
+        <div class="button-container">
+            <div style="margin-bottom: 28px">
+                <el-button
+                    class="job-send-button"
+                    @click="jobsendlistsearch"
+                    v-no-more-click
+                >
+                    搜索
+                </el-button>
+            </div>
+            <div>
+                <el-button
+                    class="job-send-button"
+                    @click="jobSearchLogAdd = true"
+                    v-no-more-click
+                >
+                    新增
+                </el-button>
+            </div>
+        </div>
+    </div>
+    <el-divider />
     <div class="job-log-wrapper">
         <div class="joblog-list-layout">
             <el-table
@@ -66,18 +105,43 @@
             <!-- @size-change="handleSizeChange" -->
         </div>
     </div>
+    <div class="job-send-log-dialog-add">
+        <el-dialog
+            v-model="jobSearchLogAdd"
+            :destroy-on-close="true"
+            :close-on-click-modal="false"
+            :close-on-press-escape="false"
+            title="新增找工作记录"
+        >
+            <JobSearchAdd @jobSearchLogAddClose="beforeAdd"></JobSearchAdd>
+        </el-dialog>
+    </div>
 </template>
 <script setup>
 import { ref, reactive, onMounted, inject } from 'vue'
 import { getJobSearchMainList } from '@/api/logForJobUtil.js'
+
+import JobSearchAdd from '@/views/logJobs/logjobmain/mainrouterviews/JobSearchAdd.vue'
 import router from '@/router'
+//分页绑定的对象
 const pager = reactive({ total: 0, currentPager: 1, pageSize: 10 })
+//列表数据对象
 const tableData = ref([])
+//新增页面的弹出框标识
+const jobSearchLogAdd = ref(false)
+//
 const emit = defineEmits(['updateTotlal'])
+//在头部展示列表总数的对象
 const listCount = inject('listCount')
+//请求列表数据的入参对象
+const dataBean = reactive({
+    mname: '',
+    cpage: pager.currentPager,
+    pagesize: pager.pageSize
+})
 onMounted(() => {
     //组件挂载的时候请求列表数据
-    getJobSearchMainList().then(mainListData)
+    getJobSearchMainList(dataBean).then(mainListData)
 })
 
 /**
@@ -88,25 +152,54 @@ function handleOpenJobSendList(index, row) {
     // console.log(router, router.history)
     router.push('/logjobs/jobsearch?guid=' + row.guid)
 }
+/**
+ * 处理请求列表数据之后的返回值
+ * @param {*} res
+ */
 const mainListData = (res) => {
-    // console.log('getJobSearchMainList', res)
-    if (res.state.code === '200') {
-        pager.total = res.custom.count
-        pager.currentPager = res.custom.currentpage
-        tableData.value = res.custom.list
-        listCount.value = pager.total
-        // emit('updateTotlal', pager.total)
-    }
+    return new Promise((resolve, reject) => {
+        // console.log('getJobSearchMainList', res)
+        if (res.state.code === '200') {
+            pager.total = res.custom.count
+            pager.currentPager = res.custom.currentpage
+            tableData.value = res.custom.list
+            listCount.value = pager.total
+            dataBean.cpage = pager.currentPager
+            dataBean.pagesize = pager.pageSize
+            // console.log('mainListData', res.custom.list)
+        }
+        resolve()
+    })
+
     // console.log(tableData.value)
 }
 
 function handleCurrentChange(e) {
     // console.log('handleCurrentChange', e)
-    getJobSearchMainList().then(mainListData)
+    getJobSearchMainList(dataBean).then(mainListData)
+}
+/**
+ * 列表搜索事件
+ */
+function jobsendlistsearch() {
+    getJobSearchMainList(dataBean).then(mainListData)
+}
+
+/**
+ * 弹窗页面关闭之前执行的操作，主要是更新列表数据
+ */
+function beforeAdd() {
+    // console.log('beforeAdd')
+    getJobSearchMainList(dataBean)
+        .then(mainListData)
+        .then(() => {
+            jobSearchLogAdd.value = false
+        })
 }
 </script>
 <style scoped>
 @import '@/assets/joblogcss/jobloglistcss.css';
+@import '@/assets/joblogcss/jobsendlist.css';
 </style>
 <style>
 .el-icon {

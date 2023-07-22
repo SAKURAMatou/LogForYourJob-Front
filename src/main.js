@@ -8,6 +8,7 @@ import router from './router'
 
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
+import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 
 import SvgIcon from './components/icons/svgIcon.vue'
 
@@ -17,6 +18,10 @@ app.use(createPinia())
 app.use(router)
 //使用element
 app.use(ElementPlus)
+
+app.use(ElementPlus, {
+    locale: zhCn
+})
 //把图标注册为全局变量
 app.component('SvgIcon', SvgIcon)
 
