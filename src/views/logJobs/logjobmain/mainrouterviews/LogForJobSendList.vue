@@ -200,12 +200,26 @@
             width="70%"
         >
             <LogForJobSendAdd
-                @jobSendLogAddClose="jobSendLogAdd = false"
+                @jobSendLogAddClose="afterChange('add')"
                 :mguid="guid"
             ></LogForJobSendAdd>
         </el-dialog>
     </div>
-    <div class="job-send-log-dialog-edit"></div>
+    <div class="job-send-log-dialog-edit">
+        <el-dialog
+            v-model="detail.openedit"
+            :destroy-on-close="true"
+            :close-on-click-modal="false"
+            :close-on-press-escape="false"
+            :title="`修改${detail.cname}的投递记录`"
+            width="70%"
+        >
+            <LogForJobSendEdit
+                @jobSendLogEditClose="afterChange('edit')"
+                :dataBean="detail"
+            ></LogForJobSendEdit>
+        </el-dialog>
+    </div>
 </template>
 <script setup>
 import router from '@/router'
@@ -219,11 +233,14 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import LogForJobSendDetail from '@/views/logJobs/logjobmain/mainrouterviews/LogForJobSendDetail.vue'
 import LogForJobSendAdd from '@/views/logJobs/logjobmain/mainrouterviews/LogForJobSendAdd.vue'
 
+import LogForJobSendEdit from '@/views/logJobs/logjobmain/mainrouterviews/LogForJobSendEdit.vue'
+
 const guid = ref(router.currentRoute.value.query.guid)
 
 //列表绑定数据的对象
 const tableData = ref([])
 const jobSendLogAdd = ref(false)
+
 //分页的对象
 const pager = reactive({ total: 0, currentPager: 1, pageSize: 10 })
 const listCount = inject('listCount')
@@ -245,6 +262,7 @@ const dataBean = reactive({
  */
 const detail = reactive({
     opendrawer: false,
+    openedit: false,
     cname: '公司名称',
     mname: '',
     jobname: '',
@@ -284,16 +302,31 @@ const handleOpenDetail = (index, row) => {
     //打开详情，先请求详情，成功之后detail.opendrawer=true
     getSendLogDetail(row.guid).then((res) => {
         if (res.state.code === '200') {
-            // detail =
             Object.assign(detail, res.custom)
             detail.opendrawer = true
             // console.log('detail', detail)
         } else {
+            ElMessage({ message: res.state.msg, type: 'warning' })
         }
         //
     })
 }
-const handleEdit = (index, row) => {}
+const handleEdit = (index, row) => {
+    ElMessageBox.confirm(`确定修改${row.cname}的投递记录吗?`, '确认', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+    }).then(() => {
+        getSendLogDetail(row.guid).then((res) => {
+            if (res.state.code === '200') {
+                Object.assign(detail, res.custom)
+                detail.openedit = true
+            } else {
+                ElMessage({ message: res.state.msg, type: 'warning' })
+            }
+        })
+    })
+}
 const handleDelete = (index, row) => {
     ElMessageBox.confirm(`确定要删除${row.cname}的投递记录吗?`, '确认', {
         confirmButtonText: '确定',
@@ -325,13 +358,25 @@ function jobsendlistsearch() {
  */
 function handleCurrentChange(e) {
     dataBean.cpage = e
-    // console.log('handleCurrentChange', e, dataBean)
+    //先注释分页事件中的请求列表，mock数据的页码随机会当前页码和请求数据后不一致导致重复请求数据
     // getsendListData()
 }
 
-function beforeAdd(e) {
-    console.log('beforeAdd', e)
+function beforeAdd() {
     jobSendLogAdd.value = false
+}
+/**
+ * 新增，修改数据之后刷新列表
+ * @param {*} vModel
+ */
+
+function afterChange(vModel) {
+    getsendListData()
+    if (vModel === 'add') {
+        jobSendLogAdd.value = false
+    } else if (vModel === 'edit') {
+        detail.openedit = false
+    }
 }
 
 /**

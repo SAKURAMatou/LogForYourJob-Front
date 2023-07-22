@@ -81,6 +81,7 @@
                     <el-select
                         placeholder="选择意向程度"
                         v-model="dataBean.heartlevel"
+                        value-key="value"
                         clearable
                     >
                         <el-option label="毫无波澜" value="0" />
@@ -120,21 +121,21 @@
                         <div class="button-group">
                             <div class="button-item">
                                 <el-button
-                                    class="job-send-button-primary"
-                                    @click="saveAndNew"
+                                    class="job-send-button"
+                                    @click="saveEdit"
                                     v-no-more-click
-                                    type="primary"
                                 >
-                                    保存并新增
+                                    保存修改
                                 </el-button>
                             </div>
                             <div class="button-item">
                                 <el-button
-                                    class="job-send-button"
-                                    @click="addNewSendLog"
+                                    class="job-send-button-danger"
+                                    @click="cancleEdit"
                                     v-no-more-click
+                                    type="danger"
                                 >
-                                    确定新增
+                                    取消
                                 </el-button>
                             </div>
                         </div>
@@ -146,40 +147,14 @@
 </template>
 <script setup>
 import { reactive, ref } from 'vue'
-import { addSendLog } from '@/api/logForJobUtil.js'
+import { modifySendLog } from '@/api/logForJobUtil.js'
 import { ElMessage, ElMessageBox } from 'element-plus'
-
-const props = defineProps(['mguid'])
-const emit = defineEmits(['jobSendLogAddClose'])
-
-const checkWebsite = (rule, value, callback) => {
-    if (value) {
-        //有值的时候校验是否满足网站格式
-        const urlRegex =
-            /^(http(s)?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?$/
-        if (!urlRegex.test(value)) {
-            callback(new Error('请输入正确的网址!'))
-        } else {
-            callback()
-        }
-    } else {
-        //非必填，值为空的时候不校验
-        callback()
-    }
-}
-
-const dataBean = reactive({
-    mguid: props.mguid,
-    guid: '',
-    cname: '',
-    jobname: '',
-    salary: '',
-    heartlevel: '',
-    cwebsite: '',
-    jobdescription: '',
-    requirement: '',
-    comment: ''
+//定义从父组件获取的记录详情对象
+const prop = defineProps({
+    dataBean: Object
 })
+const emit = defineEmits(['jobSendLogEditClose'])
+// console.log('edit', prop.dataBean)
 //进行表单校验的对象
 const dataBeanRuleRef = ref()
 const dataBeanRule = reactive({
@@ -208,62 +183,35 @@ const dataBeanRule = reactive({
 })
 
 /**
- * 添加新的投递记录
+ * 保存修改
  */
-function addNewSendLog() {
-    dataBeanRuleRef.value.validate(async (valid) => {
+function saveEdit() {
+    dataBeanRuleRef.value.validate((valid) => {
         if (valid) {
-            // console.log('addNewSendLog', dataBean)
-            //请求新增数据
-            addSendLog(dataBean).then((res) => {
+            console.log('saveEdit', JSON.stringify(prop.dataBean))
+            modifySendLog(prop.dataBean).then((res) => {
                 if (res.state.code === '200') {
-                    ElMessageBox.alert('新增成功!', '提示', {
+                    ElMessageBox.alert('修改成功，祝君找工作顺利！', '提示', {
                         confirmButtonText: '确定',
                         callback: (action) => {
-                            emit('jobSendLogAddClose')
+                            emit('jobSendLogEditClose')
                         }
                     })
                 } else {
-                    ElMessage.error(res.custom.description)
+                    ElMessage({
+                        message: res.state.msg,
+                        type: 'warning'
+                    })
                 }
             })
         }
     })
 }
-
 /**
- * Saves the data and creates a new record.
- *
- * @param {function} valid - Callback function to validate the data.
- * @return {void}
+ * 取消修改
  */
-function saveAndNew() {
-    dataBeanRuleRef.value.validate(async (valid) => {
-        if (valid) {
-            console.log('saveAndNew', JSON.stringify(dataBean))
-            addSendLog(dataBean).then((res) => {
-                if (res.state.code === '200') {
-                    ElMessageBox.alert('新增成功!', '提示', {
-                        confirmButtonText: '确定',
-                        callback: (action) => {
-                            dataBean.guid = ''
-                            dataBean.cname = ''
-                            dataBean.jobname = ''
-                            dataBean.salary = ''
-                            dataBean.heartlevel = ''
-                            dataBean.sendtime = ''
-                            dataBean.cwebsite = ''
-                            dataBean.jobdescription = ''
-                            dataBean.requirement = ''
-                            dataBean.comment = ''
-                        }
-                    })
-                } else {
-                    ElMessage.error(res.custom.description)
-                }
-            })
-        }
-    })
+function cancleEdit() {
+    prop.dataBean.openedit = false
 }
 </script>
 

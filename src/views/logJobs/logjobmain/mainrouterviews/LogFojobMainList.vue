@@ -196,8 +196,9 @@ const mainListData = (res) => {
 }
 
 function handleCurrentChange(e) {
-    // console.log('handleCurrentChange', e)
-    getJobSearchMainList(dataBean).then(mainListData)
+    dataBean.cpage = e
+    //先注释分页事件中的请求列表，mock数据的页码随机会当前页码和请求数据后不一致导致重复请求数据
+    // getJobSearchMainList(dataBean).then(mainListData)
 }
 /**
  * 列表搜索事件
