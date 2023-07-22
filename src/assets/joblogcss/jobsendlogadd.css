@@ -50,3 +50,8 @@
     color: var(--unnamed, #3472d7);
     font-family: Microsoft YaHei UI;
 }
+.job-send-button-primary{
+    font-family: Microsoft YaHei UI;
+    border-radius: 6px;
+    /* border: 1.5px solid var(--unnamed, #3472d7); */
+}

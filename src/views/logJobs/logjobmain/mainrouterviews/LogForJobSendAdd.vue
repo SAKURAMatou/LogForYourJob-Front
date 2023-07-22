@@ -120,9 +120,10 @@
                         <div class="button-group">
                             <div class="button-item">
                                 <el-button
-                                    class="job-send-button"
+                                    class="job-send-button-primary"
                                     @click="saveAndNew"
                                     v-no-more-click
+                                    type="primary"
                                 >
                                     保存并新增
                                 </el-button>
