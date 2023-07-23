@@ -11,7 +11,7 @@
             >
                 <el-menu-item :index="jobSearch">
                     <el-icon><SvgIcon name="document"></SvgIcon></el-icon>
-                    <span class="left-aside-menu">投递记录</span>
+                    <span class="left-aside-menu">找工作记录</span>
                 </el-menu-item>
 
                 <div id="line-ap">

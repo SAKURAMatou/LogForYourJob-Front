@@ -15,13 +15,15 @@ const childrenRouter = [
         component: () =>
             import(
                 '../../views/logJobs/logjobmain/mainrouterviews/LogFojobMainList.vue'
-            )
+            ),
+        meta: { tag: '找工作记录' }
     },
     {
         path: DL_ROUTER_PATH.main_view.children.setting,
         name: 'setting',
         component: () =>
-            import('../../views/logJobs/logjobmain/UserSetting.vue')
+            import('../../views/logJobs/logjobmain/UserSetting.vue'),
+        meta: { tag: '用户设置', hideTotal: true }
     },
     {
         path: DL_ROUTER_PATH.main_view.children.job,
@@ -29,7 +31,8 @@ const childrenRouter = [
         component: () =>
             import(
                 '../../views/logJobs/logjobmain/mainrouterviews/LogForJobSendList.vue'
-            )
+            ),
+        meta: { tag: '投递记录' }
     }
 ]
 

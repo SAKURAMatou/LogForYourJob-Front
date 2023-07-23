@@ -1,9 +1,27 @@
 <template>
     <div class="head-wrapper">
         <div class="head-content head-left-text">
-            <span class="title-text"> Find Jobs </span>
+            <!-- <div class="head-left-wrapper"> -->
+            <div class="title-text">Jobs Logs:</div>
+            <el-breadcrumb class="breadcrumb">
+                <el-breadcrumb-item
+                    v-for="(item, index) in breadcrumbData"
+                    :key="item"
+                    >{{ item.tag }}
+                    <template
+                        v-if="
+                            index == breadcrumbData.length - 1 &&
+                            !item.hideTotal
+                        "
+                        >({{ listCount }})</template
+                    >
+                </el-breadcrumb-item>
+                <!-- <el-breadcrumb-item>二级菜单</el-breadcrumb-item>
+                <el-breadcrumb-item>二级菜单</el-breadcrumb-item> -->
+            </el-breadcrumb>
+            <!-- </div> -->
             <!-- <span class="title-text"> (<slot name="count">0</slot>)</span> -->
-            <span class="title-text"> ({{ listCount }})</span>
+            <!-- <span class="title-text"> ({{ listCount }})</span> -->
         </div>
 
         <el-button
@@ -19,15 +37,32 @@
 // import { getDataTest } from '@/api/logForJobUtil.js'
 import { inject, watch, ref } from 'vue'
 import router from '@/router'
+import { useRoute } from 'vue-router'
 const ishide = ref(false)
-// const guid = ref(router.query.guid)
+const breadcrumbData = ref([])
+
+const route = useRoute()
+// console.log('currentRoute', route)
+// console.log('router.meta', router.currentRoute)
+
+// console.log('breadcrumbData', breadcrumbData)
 //头部列表数据
 const listCount = inject('listCount')
-ishide.value = router.currentRoute.value.name === 'job'
+ishide.value = route.name === 'job'
 watch(router.currentRoute, (r) => {
-    // console.log('currentRoute', r)
     ishide.value = 'job' === r.name
+    initBreadcrumbData()
 })
+
+const initBreadcrumbData = () => {
+    breadcrumbData.value = []
+    if (route.query.name) {
+        breadcrumbData.value.push({ tag: route.query.name, hideTotal: true })
+    }
+    breadcrumbData.value.push(route.meta)
+    console.log('breadcrumbData', breadcrumbData)
+}
+initBreadcrumbData()
 /**
  * 点击之后路由回退
  */
@@ -57,16 +92,28 @@ const backHandle = () => {
     right: 71px;
     /* transform: translate(0, -50%); */
 }
+.head-wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
 .head-content {
     position: absolute;
     top: 50%;
-
     transform: translate(-50%, -50%);
-}
-.head-left-text {
-    left: 138px;
+    /* 左侧文字新增 */
 
-    margin-left: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transform: translateY(-50%);
+}
+
+.head-left-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    position: absolute;
 }
 .title-text {
     color: #000;
@@ -75,8 +122,23 @@ const backHandle = () => {
     font-style: normal;
     font-weight: 700;
     line-height: normal;
+    width: 210px;
+    flex: 0 0 auto; /* 不伸缩，固定宽度 */
+    position: absolute;
+
+    margin-left: 10px;
 }
 .hide {
     display: none;
+}
+.breadcrumb {
+    color: #000;
+    font-family: Microsoft YaHei UI;
+    line-height: normal;
+    font-style: normal;
+    font-size: 22px;
+    flex: 1;
+    left: 229px;
+    position: relative;
 }
 </style>

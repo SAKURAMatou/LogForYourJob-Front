@@ -170,7 +170,7 @@ onMounted(() => {
 function handleOpenJobSendList(index, row) {
     // console.log(index, row)
     // console.log(router, router.history)
-    router.push('/logjobs/jobsearch?guid=' + row.guid)
+    router.push(`/logjobs/jobsearch?guid=${row.guid}&name=${row.name}`)
 }
 
 /**
