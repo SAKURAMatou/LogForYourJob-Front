@@ -24,3 +24,8 @@ export function userBaseInfoChange(data) {
 export function userPwdChange(data) {
     return request.post('/usersetting/userPwdChange', { param: data })
 }
+export function userPhoneChange(data) {
+    return request.post('/usersetting/useruserPhoneChangewdChange', {
+        param: data
+    })
+}

@@ -4,7 +4,10 @@
             <UserInfoDisplay :userInfo="userInfo"></UserInfoDisplay>
         </div>
         <div class="user-setting-right">
-            <UserInfoEdit @refreshUserInfo="refreshUserInfo"></UserInfoEdit>
+            <UserInfoEdit
+                @refreshUserInfo="refreshUserInfo"
+                :phone="userInfo.phone"
+            ></UserInfoEdit>
         </div>
     </div>
 </template>
@@ -13,7 +16,7 @@
 import UserInfoEdit from '@/views/usersview/UserInfoEdit.vue'
 import UserInfoDisplay from '@/views/usersview/UserInfoDisplay.vue'
 
-import { ref, onMounted } from 'vue'
+import { ref, onBeforeMount } from 'vue'
 // import { LoginStore } from '@/stores/logjobstore/loginstroe.js'
 import { getUserInfo } from '@/api/userSettingUtil.js'
 import { ElMessage } from 'element-plus'
@@ -31,7 +34,7 @@ function initUserInfo() {
         }
     })
 }
-onMounted(() => {
+onBeforeMount(() => {
     initUserInfo()
 })
 

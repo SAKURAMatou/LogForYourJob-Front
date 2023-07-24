@@ -18,6 +18,7 @@
             <el-main>
                 <component
                     :is="menuList[activeIndex].component"
+                    :exitPhone="phone"
                     @userinfochange="refreshUserInfo"
                 ></component>
             </el-main>
@@ -31,6 +32,7 @@ import UserBaseInfoEdit from '@/views/usersview/userinfoedit/UserBaseInfoEdit.vu
 
 import { ref } from 'vue'
 const emit = defineEmits(['refreshUserInfo'])
+const prop = defineProps(['phone'])
 const activeIndex = ref(0)
 
 const menuList = [
