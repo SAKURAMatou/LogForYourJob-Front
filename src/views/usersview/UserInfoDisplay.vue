@@ -24,26 +24,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { LoginStore } from '@/stores/logjobstore/loginstroe.js'
-import { getUserInfo } from '@/api/userSettingUtil.js'
-import { ElMessage } from 'element-plus'
-const userInfo = ref({})
-// const loginStore = LoginStore()
-// const userInfo = loginStore.getUserInfo
-function initUserInfo() {
-    getUserInfo().then((res) => {
-        if (res.state.code === '200') {
-            //用户信息获取成功
-            userInfo.value = res.custom.userinfo
-            console.log('userInfo', userInfo.value)
-        } else {
-            ElMessage({ message: res.state.msg, type: 'warning' })
-        }
-    })
-}
-onMounted(() => {
-    initUserInfo()
+const prop = defineProps({
+    userInfo: Object
 })
 </script>
 

@@ -1,0 +1,6 @@
+.log-job-button {
+    border-radius: 6px;
+    border: 1.5px solid var(--unnamed, #3472d7);
+    color: var(--unnamed, #3472d7);
+    font-family: Microsoft YaHei UI;
+}
