@@ -3,12 +3,12 @@ import CONST_VALUE from '@/CONST_VALUE.js'
 import { LoginStore } from '@/stores/logjobstore/loginstroe.js'
 import router from '@/router'
 import Auth from '@/Utils/auth.js'
-import { ElMessageBox } from 'element-plus'
+import { ElMessageBox, ElMessage } from 'element-plus'
 
 const proxyPre = import.meta.env.VITE_PROXY_PRE
 //创建axios实例
 const request = axios.create({
-    baseURL:  proxyPre,
+    baseURL: proxyPre,
     // baseURL:'/dmlapi',
     timeout: 5000
 })
@@ -24,7 +24,7 @@ request.interceptors.request.use((config) => {
         //当前用户已经登录的话，判断登录是否失效
         return Auth.isOutAuth().then(
             () => {
-                config.headers.Authorization = loginStore.token
+                config.headers.Authorization = 'Bearer ' + loginStore.token
                 return config
             },
             () => {
@@ -42,9 +42,20 @@ request.interceptors.request.use((config) => {
     }
 })
 
-request.interceptors.response.use((response) => {
-    return response.data
-})
+request.interceptors.response.use(
+    (response) => {
+        return response.data
+    },
+    (error) => {
+        if (
+            error.code === 'ECONNABORTED' &&
+            error.message.includes('timeout')
+        ) {
+            ElMessage.error('请求超时，请稍后再试！' + error.message)
+        }
+        return Promise.reject(error)
+    }
+)
 function isUrlInWhiteList(url) {
     return CONST_VALUE.WHITE_LIST.includes(
         url.replace(import.meta.env.VITE_PROXY_PRE, '')

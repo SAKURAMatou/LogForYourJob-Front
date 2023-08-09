@@ -42,9 +42,9 @@ export const LoginStore = defineStore('LoginStore', {
                 let startlogin = Date.now()
                 // console.log('login', startlogin)
                 userLogin(userinfo).then((res) => {
-                    Auth.setTokenTime(Date.now()).then(() => {
-                        // console.log('login', res)
-                        if (res.state.code === 200) {
+                    if (res.state.code === '200') {
+                        Auth.setTokenTime(Date.now()).then(() => {
+                            // console.log('login', res)
                             this.setUserInfo(res.custom)
                             //设置用户登录有效期等信息
                             router.push(DL_ROUTER_PATH.main_view.main_root)
@@ -52,10 +52,11 @@ export const LoginStore = defineStore('LoginStore', {
                                 'login-开始跳转',
                                 Date.now() - startlogin
                             )
-                            resolve()
-                        } else {
-                        }
-                    })
+                            resolve('登陆成功！')
+                        })
+                    } else {
+                        resolve(res.state.msg)
+                    }
                 })
             })
         },

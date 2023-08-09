@@ -121,18 +121,19 @@ const loginStore = LoginStore()
 const handleLogin = () => {
     userValidate.value.validate(async (valid) => {
         if (valid) {
-            loginStore.login(userForm.value).then((logres) => {
-                ElMessage.info('成功！')
-            })
+            try {
+                loginStore.login(userForm.value).then((logres) => {
+                    ElMessage.info(logres)
+                })
+            } catch (error) {
+                ElMessage.error('登录异常！')
+            }
         } else {
-            ElMessage.error('失败！')
+            ElMessage.error('验证失败！')
             return false
         }
     })
 }
-
-
-
 </script>
 
 <style scoped>
