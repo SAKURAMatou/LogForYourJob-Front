@@ -13,9 +13,10 @@ const DL_ROUTER_PATH = {
         register: '/login/register'
     }
 }
+// 'https://mock.apifox.cn/m1/2980786-0-default'
 const DL_CONST_VALUE = {
     axios: {
-        baseURL: 'https://mock.apifox.cn/m1/2980786-0-default',
+        baseURL: import.meta.env.VITE_BASE_SERVER_URL,
         timeout: 5000
     },
     AUTH: {

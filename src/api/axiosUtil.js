@@ -5,9 +5,11 @@ import router from '@/router'
 import Auth from '@/Utils/auth.js'
 import { ElMessageBox } from 'element-plus'
 
+const proxyPre = import.meta.env.VITE_PROXY_PRE
 //创建axios实例
 const request = axios.create({
-    baseURL: CONST_VALUE.axios.baseURL,
+    baseURL:  proxyPre,
+    // baseURL:'/dmlapi',
     timeout: 5000
 })
 
@@ -44,7 +46,9 @@ request.interceptors.response.use((response) => {
     return response.data
 })
 function isUrlInWhiteList(url) {
-    return CONST_VALUE.WHITE_LIST.includes(url)
+    return CONST_VALUE.WHITE_LIST.includes(
+        url.replace(import.meta.env.VITE_PROXY_PRE, '')
+    )
 }
 
 export default request
