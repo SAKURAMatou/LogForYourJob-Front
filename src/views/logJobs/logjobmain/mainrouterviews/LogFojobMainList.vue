@@ -188,6 +188,8 @@ const mainListData = (res) => {
             dataBean.cpage = pager.currentPager
             dataBean.pagesize = pager.pageSize
             // console.log('mainListData', res.custom.list)
+        } else {
+            ElMessage.error(res.state.msg)
         }
         resolve()
     })
