@@ -44,6 +44,12 @@ request.interceptors.request.use((config) => {
 
 request.interceptors.response.use(
     (response) => {
+        const loginStore = LoginStore()
+        console.log(response.headers)
+        if (response.headers.token) {
+            loginStore.setToken(response.headers.token)
+            Auth.setTokenTime()
+        }
         return response.data
     },
     (error) => {

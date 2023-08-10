@@ -83,6 +83,9 @@ export const LoginStore = defineStore('LoginStore', {
             localStorage.setItem('token', userInfo.token)
             localStorage.setItem('email', userInfo.useremail)
             localStorage.setItem('avatarurl', userInfo.avatarurl)
+        },
+        setToken(token) {
+            this.token = token
         }
     }
 })

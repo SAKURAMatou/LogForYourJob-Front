@@ -7,7 +7,7 @@ const Auth = {
     setTokenTime: function (date) {
         return new Promise((resove) => {
             //设置token有效期：Date.now()
-            if (date) {
+            if (!date) {
                 localStorage.setItem(TOKEN_TIME, Date.now())
             } else {
                 localStorage.setItem(TOKEN_TIME, date)

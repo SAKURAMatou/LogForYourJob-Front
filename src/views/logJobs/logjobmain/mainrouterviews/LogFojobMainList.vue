@@ -181,6 +181,7 @@ const mainListData = (res) => {
     return new Promise((resolve, reject) => {
         // console.log('getJobSearchMainList', res)
         if (res.state.code === '200') {
+            console.log('mainlist', res)
             pager.total = res.custom.count
             pager.currentPager = res.custom.currentpage
             tableData.value = res.custom.list

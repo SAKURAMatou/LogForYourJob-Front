@@ -6,7 +6,7 @@ import request from './axiosUtil.js'
  * @returns
  */
 export function getJobSearchMainList(data) {
-    return request.post('/logforyourjobs/getmainlist', { params: data })
+    return request.post('/logforyourjobs/getmainlist', data)
 }
 
 /**
@@ -15,7 +15,7 @@ export function getJobSearchMainList(data) {
  * @returns
  */
 export function getsendList(data) {
-    return request.post('/logforyourjobs/getsendList', { params: data })
+    return request.post('/logforyourjobs/getsendList', data)
 }
 
 /**
