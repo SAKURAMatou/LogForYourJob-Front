@@ -40,3 +40,5 @@ app.directive('noMoreClick', (el, binding) => {
 })
 
 app.mount('#app')
+
+console.log("env",import.meta.env)

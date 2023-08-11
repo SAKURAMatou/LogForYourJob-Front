@@ -42,7 +42,7 @@ export const LoginStore = defineStore('LoginStore', {
                 let startlogin = Date.now()
                 // console.log('login', startlogin)
                 userLogin(userinfo).then((res) => {
-                    if (res.state.code === '200') {
+                    if (res.state.code == '200') {
                         Auth.setTokenTime(Date.now()).then(() => {
                             // console.log('login', res)
                             this.setUserInfo(res.custom)

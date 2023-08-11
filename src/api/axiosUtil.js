@@ -5,10 +5,10 @@ import router from '@/router'
 import Auth from '@/Utils/auth.js'
 import { ElMessageBox, ElMessage } from 'element-plus'
 
-const proxyPre = import.meta.env.VITE_PROXY_PRE
+const baseServiceUrl = import.meta.env.VITE_BASE_SERVER_URL
 //创建axios实例
 const request = axios.create({
-    baseURL: proxyPre,
+    baseURL: baseServiceUrl,
     // baseURL:'/dmlapi',
     timeout: 5000
 })
