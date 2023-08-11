@@ -50,4 +50,13 @@ body {
 .right-container {
     flex: 1; /* 占满剩余空间 */
 }
+.app-wrapper {
+    height: 100vh;
+    min-height: 1024px;
+}
+/* 使侧边栏和主容器都有一个合适的高度 */
+.sidebar-container,
+.right-container {
+    height: 100%;
+}
 </style>

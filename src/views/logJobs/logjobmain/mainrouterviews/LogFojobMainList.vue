@@ -61,7 +61,7 @@
                     <template #default="scope">
                         <SvgIcon name="calendar"></SvgIcon>
                         <span style="margin-left: 10px">{{
-                            scope.row.staredate
+                            scope.row.startdate
                         }}</span>
                     </template>
                 </el-table-column>
@@ -181,7 +181,7 @@ const mainListData = (res) => {
     return new Promise((resolve, reject) => {
         // console.log('getJobSearchMainList', res)
         if (res.state.code === '200') {
-            console.log('mainlist', res)
+            // console.log('mainlist', res)
             pager.total = res.custom.count
             pager.currentPager = res.custom.currentpage
             tableData.value = res.custom.list
@@ -201,7 +201,7 @@ const mainListData = (res) => {
 function handleCurrentChange(e) {
     dataBean.cpage = e
     //先注释分页事件中的请求列表，mock数据的页码随机会当前页码和请求数据后不一致导致重复请求数据
-    // getJobSearchMainList(dataBean).then(mainListData)
+    getJobSearchMainList(dataBean).then(mainListData)
 }
 /**
  * 列表搜索事件

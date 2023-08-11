@@ -84,7 +84,7 @@
             <el-table
                 :data="tableData"
                 style="width: 100%"
-                max-height="600px"
+                max-height="580px"
                 size="large"
                 :row-style="initRowStyle"
                 row-class-name="table-row-class"
@@ -359,7 +359,7 @@ function jobsendlistsearch() {
 function handleCurrentChange(e) {
     dataBean.cpage = e
     //先注释分页事件中的请求列表，mock数据的页码随机会当前页码和请求数据后不一致导致重复请求数据
-    // getsendListData()
+    getsendListData()
 }
 
 function beforeAdd() {

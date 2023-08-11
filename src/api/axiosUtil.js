@@ -45,7 +45,7 @@ request.interceptors.request.use((config) => {
 request.interceptors.response.use(
     (response) => {
         const loginStore = LoginStore()
-        console.log(response.headers)
+        // console.log(response.headers)
         if (response.headers.token) {
             loginStore.setToken(response.headers.token)
             Auth.setTokenTime()
@@ -53,12 +53,27 @@ request.interceptors.response.use(
         return response.data
     },
     (error) => {
+        const loginStore = LoginStore()
         if (
             error.code === 'ECONNABORTED' &&
             error.message.includes('timeout')
         ) {
             ElMessage.error('请求超时，请稍后再试！' + error.message)
         }
+        if (error.response.status == 500) {
+            ElMessage.error('服务端异常！' + error.message)
+        }
+        if (error.response.status == 401) {
+            ElMessageBox.alert('登录已经过期，请重新登录', '提醒', {
+                confirmButtonText: 'OK',
+                callback: function () {
+                    //执行退出操作并跳转登录页面
+                    loginStore.logout()
+                }
+            })
+        }
+        // console.log('response error', error)
+
         return Promise.reject(error)
     }
 )
