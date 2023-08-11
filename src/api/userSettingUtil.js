@@ -4,7 +4,7 @@ import request from './axiosUtil.js'
  * @returns
  */
 export function getUserInfo() {
-    return request.post('/usersetting/getUserInfo')
+    return request.post('/usersetting/detail')
 }
 
 /**
@@ -13,7 +13,7 @@ export function getUserInfo() {
  * @returns
  */
 export function userBaseInfoChange(data) {
-    return request.post('/usersetting/userBaseInfoChange', { param: data })
+    return request.post('/usersetting/change/userBaseInfo', data)
 }
 
 /**
@@ -22,10 +22,8 @@ export function userBaseInfoChange(data) {
  * @returns
  */
 export function userPwdChange(data) {
-    return request.post('/usersetting/userPwdChange', { param: data })
+    return request.post('/usersetting/change/password', data)
 }
 export function userPhoneChange(data) {
-    return request.post('/usersetting/useruserPhoneChangewdChange', {
-        param: data
-    })
+    return request.post('/usersetting/change/phone', data)
 }

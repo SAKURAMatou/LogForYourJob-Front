@@ -17,7 +17,6 @@ import UserInfoEdit from '@/views/usersview/UserInfoEdit.vue'
 import UserInfoDisplay from '@/views/usersview/UserInfoDisplay.vue'
 
 import { ref, onBeforeMount } from 'vue'
-// import { LoginStore } from '@/stores/logjobstore/loginstroe.js'
 import { getUserInfo } from '@/api/userSettingUtil.js'
 import { ElMessage } from 'element-plus'
 const userInfo = ref({})
