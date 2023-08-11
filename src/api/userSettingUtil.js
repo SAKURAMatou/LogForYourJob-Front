@@ -4,7 +4,7 @@ import request from './axiosUtil.js'
  * @returns
  */
 export function getUserInfo() {
-    return request.post('/usersetting/detail')
+    return request.get('/usersetting/detail')
 }
 
 /**
@@ -26,4 +26,11 @@ export function userPwdChange(data) {
 }
 export function userPhoneChange(data) {
     return request.post('/usersetting/change/phone', data)
+}
+
+export function userAvatarChange(file){
+    let fd=new FormData();
+    fd.append('file',file.file);
+    fd.append("file_name",file.name)
+    return request.post('/usersetting/change/avatar')
 }
