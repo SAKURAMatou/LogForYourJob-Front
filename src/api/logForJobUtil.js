@@ -24,7 +24,7 @@ export function getsendList(data) {
  * @returns
  */
 export function deleteSendLog(data) {
-    return request.post('/logforyourjobs/deleteSendLog', { params: data })
+    return request.post('/logforyourjobs/deleteSendLog', data)
 }
 
 /**
@@ -36,7 +36,7 @@ export function getSendLogDetail(data) {
     var param = {
         guid: data
     }
-    return request.post('/logforyourjobs/getSendLogDetail', { params: param })
+    return request.post('/logforyourjobs/getSendLogDetail', param)
 }
 
 /**
@@ -45,7 +45,7 @@ export function getSendLogDetail(data) {
  * @returns
  */
 export function modifySendLog(data) {
-    return request.post('/logforyourjobs/modifySendLog', { params: data })
+    return request.post('/logforyourjobs/modifySendLog', data)
 }
 
 /**
@@ -54,7 +54,7 @@ export function modifySendLog(data) {
  * @returns
  */
 export function addSendLog(data) {
-    return request.post('/logforyourjobs/addSendLog', { params: data })
+    return request.post('/logforyourjobs/addSendLog', data)
 }
 
 /**
@@ -63,7 +63,7 @@ export function addSendLog(data) {
  * @returns
  */
 export function addJobSearchLog(data) {
-    return request.post('/logforyourjobs/addJobSearchLog', { params: data })
+    return request.post('/logforyourjobs/addJobSearchLog', data)
 }
 /**
  * 办结找工作记录
@@ -71,5 +71,5 @@ export function addJobSearchLog(data) {
  * @returns
  */
 export function finishJobSeachLog(data) {
-    return request.post('/logforyourjobs/finishJobSeachLog', { params: data })
+    return request.post('/logforyourjobs/finishJobSeachLog', data)
 }
