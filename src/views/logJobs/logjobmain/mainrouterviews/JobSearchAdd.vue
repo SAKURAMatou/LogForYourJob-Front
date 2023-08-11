@@ -130,6 +130,7 @@ function addJobSeachLog() {
     dataBeanRuleRef.value.validate((valid) => {
         if (valid) {
             // console.log('addJobSeachLog', dataBean)
+            dataBean.name = dataBean.mname
             addJobSearchLog(dataBean).then((res) => {
                 if (res.state.code === '200') {
                     ElMessageBox.alert('新增成功，祝君找工作顺利！', '提示', {

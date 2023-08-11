@@ -72,6 +72,9 @@ request.interceptors.response.use(
                 }
             })
         }
+        if (error.response.status == 422) {
+            ElMessage.error('请求错误:' + JSON.stringify(error.response.data))
+        }
         // console.log('response error', error)
 
         return Promise.reject(error)

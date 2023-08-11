@@ -24,7 +24,10 @@ export function getsendList(data) {
  * @returns
  */
 export function deleteSendLog(data) {
-    return request.post('/logforyourjobs/deleteSendLog', data)
+    var param = {
+        guid: data
+    }
+    return request.post('/logforyourjobs/deleteSendLog', param)
 }
 
 /**
@@ -71,5 +74,8 @@ export function addJobSearchLog(data) {
  * @returns
  */
 export function finishJobSeachLog(data) {
-    return request.post('/logforyourjobs/finishJobSeachLog', data)
+    var param = {
+        mguid: data
+    }
+    return request.post('/logforyourjobs/finishJobSeachLog', param)
 }

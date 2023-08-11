@@ -228,14 +228,14 @@ function beforeAdd() {
  * @param {*} row
  */
 function finishSearchLog(index, row) {
-    // console.log('finishSearchLog', row)
+    console.log('finishSearchLog', row)
     ElMessageBox.confirm(`确定要结束${row.name}吗?`, '确认', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
     }).then(() => {
         // console.log('finishJobSeachLog-确认')
-        finishJobSeachLog().then((res) => {
+        finishJobSeachLog(row.guid).then((res) => {
             if (res.state.code === '200') {
                 //办结成功之后是否需要等列表刷新之后再提示，待定
                 ElMessage({
