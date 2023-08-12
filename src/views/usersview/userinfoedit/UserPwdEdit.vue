@@ -66,6 +66,8 @@ const pwdInfoRef = ref({})
 const validatePwd = (rule, value, callback) => {
     if (value === '') {
         callback(new Error('请输入新密码!'))
+    } else if (pwdInfo.nowpwd == value) {
+        callback(new Error('新密码和旧密码相同!'))
     } else {
         if (pwdInfo.pwdcheck !== '') {
             //触发密码确认的校验
@@ -78,8 +80,12 @@ const checkPass = (rule, value, callback) => {
     if (value === '') {
         callback(new Error('请输入新密码!'))
     } else if (pwdInfo.newpwd && pwdInfo.newpwd != '') {
-        if (value != pwdInfo.newpwd) {
+        if (pwdInfo.nowpwd == pwdInfo.newpwd) {
+            callback(new Error('新密码和旧密码相同!'))
+        } else if (value != pwdInfo.newpwd) {
             callback(new Error('两次输入密码不一致!'))
+        } else {
+            callback()
         }
     } else {
         callback()
@@ -100,7 +106,7 @@ function savepwdEdit() {
             return
         }
         userPwdChange(pwdInfo).then((res) => {
-            if (res.state.code === '200') {
+            if (res.state.code == '200') {
                 ElMessageBox.alert('密码修改成功！', '提示', {
                     confirmButtonText: '确定',
                     callback: (action) => {

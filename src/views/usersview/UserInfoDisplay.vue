@@ -12,7 +12,7 @@
             <template #label>
                 <SvgIcon name="mail-02"></SvgIcon>
             </template>
-            {{ userInfo.email }}
+            {{ userInfo.useremail }}
         </el-descriptions-item>
         <el-descriptions-item class-name="user-display-item">
             <template #label>

@@ -28,9 +28,9 @@ export function userPhoneChange(data) {
     return request.post('/usersetting/change/phone', data)
 }
 
-export function userAvatarChange(file){
-    let fd=new FormData();
-    fd.append('file',file.file);
-    fd.append("file_name",file.name)
-    return request.post('/usersetting/change/avatar')
+export function userAvatarChange(file) {
+    let formData = new FormData()
+    formData.append('file', file.file)
+    // fd.append("file_name",file.name)
+    return request.post('/usersetting/change/avatar', formData)
 }

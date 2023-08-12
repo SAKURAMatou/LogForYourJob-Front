@@ -79,13 +79,16 @@
     </el-container>
 </template>
 <script setup>
-import { userBaseInfoChange } from '@/api/userSettingUtil.js'
-const emit = defineEmits(['userinfochange'])
+import { userBaseInfoChange, userAvatarChange } from '@/api/userSettingUtil.js'
 import { ref, reactive } from 'vue'
+import { ElMessageBox, ElMessage } from 'element-plus'
+
+const emit = defineEmits(['userinfochange'])
 
 const userInfo = reactive({
     name: '',
-    email: ''
+    email: '',
+    avatarguid: ''
 })
 //表单验证对象
 const userInfoRef = ref()
@@ -122,13 +125,22 @@ function beforeAvatarUpload(rawFile) {
 
 function handleFileUpload(uploadFile) {
     return new Promise((resolve, reject) => {
-        var t = setTimeout(() => {
-            console.log('Uploading...', uploadFile)
-            imageUrl.value = 'test_img_url'
-            // 模拟上传成功
-            resolve()
-            // 如果上传失败，你可以调用 reject(new Error('上传失败!'));
-        }, 2000)
+        userAvatarChange(uploadFile).then((res) => {
+            if (res.state.code === '200') {
+                userInfo.avatarguid = res.custom.avatarguid
+                resolve()
+            } else {
+                ElMessage.error('头像文件上传失败！' + res.state.msg)
+                reject(new Error('头像文件上传失败!'))
+            }
+        })
+        // var t = setTimeout(() => {
+        //     console.log('Uploading...', uploadFile)
+        //     imageUrl.value = 'test_img_url'
+        //     // 模拟上传成功
+        //     resolve()
+        //     // 如果上传失败，你可以调用 reject(new Error('上传失败!'));
+        // }, 2000)
     })
 }
 
@@ -139,7 +151,7 @@ function saveUserinfoEdit() {
     userInfoRef.value.validate((valid) => {
         if (valid) {
             userBaseInfoChange(userInfo).then((res) => {
-                if (res.state.code === '200') {
+                if (res.state.code == '200') {
                     ElMessageBox.alert('用户基本信息修改成功！', '提示', {
                         confirmButtonText: '确定',
                         callback: (action) => {
@@ -176,9 +188,8 @@ function saveUserinfoEdit() {
 }
 .button-item {
     margin-left: 235px;
-    
-    padding-top: 59px;
 
+    padding-top: 59px;
 }
 .file-upload {
     display: flex;
