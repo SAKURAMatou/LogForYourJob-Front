@@ -55,15 +55,15 @@ request.interceptors.response.use(
     (error) => {
         const loginStore = LoginStore()
         if (
-            error.code === 'ECONNABORTED' &&
+            error.code === 'ECONNABORTED' ||
             error.message.includes('timeout')
         ) {
             ElMessage.error('请求超时，请稍后再试！' + error.message)
         }
-        if (error.response.status == 500) {
+        else if (error.response.status == 500) {
             ElMessage.error('服务端异常！' + error.message)
         }
-        if (error.response.status == 401) {
+        else if (error.response.status == 401) {
             ElMessageBox.alert('登录已经过期，请重新登录', '提醒', {
                 confirmButtonText: 'OK',
                 callback: function () {
@@ -72,7 +72,7 @@ request.interceptors.response.use(
                 }
             })
         }
-        if (error.response.status == 422) {
+        else if (error.response.status == 422) {
             ElMessage.error('请求错误:' + JSON.stringify(error.response.data))
         }
         // console.log('response error', error)

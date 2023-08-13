@@ -7,6 +7,7 @@ import { svgBuilder } from './src/plugins/svgBuilder.js'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+    base: '/myapp/',
     server: {
         proxy: {
             '/dmlapi': {
