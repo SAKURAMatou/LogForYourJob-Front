@@ -56,7 +56,7 @@
                                 border-radius: 6px;
                                 background: #000;
                             "
-                            @click="handleLogin"
+                            @click="handleRegister"
                             v-no-more-click
                             >注册</el-button
                         >
@@ -88,7 +88,9 @@ import { ref, reactive } from 'vue'
 import LoginLeftText from '@/components/loginComp/LoginLeftText.vue'
 import LoginLogo from '@/components/loginComp/LoginLogo.vue'
 import LoginButtomText from '@/components/loginComp/LoginButtomText.vue'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { userRegister } from '@/api/loginUtil.js'
+
 //表单绑定对象
 const userForm = ref({
     name: '',
@@ -105,8 +107,6 @@ const userValidate = ref({
 })
 
 const validatePwd = (rule, value, callback) => {
-    // console.log('validatePwd-rule', rule)
-    // console.log('validatePwd-value', value)
     if (value === '') {
         callback(new Error('Please input the password'))
     } else {
@@ -118,7 +118,6 @@ const validatePwd = (rule, value, callback) => {
     }
 }
 const checkPass = (rule, value, callback) => {
-    // console.log(rule, value, callback)
     if (value === '') {
         callback(new Error('Please input the password'))
     } else if (value !== userForm.value.pwd) {
@@ -130,12 +129,12 @@ const checkPass = (rule, value, callback) => {
 
 const rules = reactive({
     name: [
-        { required: true, message: '输入username', trigger: 'blur' }
+        { required: true, message: '输入用户昵称', trigger: 'blur' }
         // { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
     ],
     pwd: [{ validator: validatePwd, trigger: 'blur' }],
     email: [
-        { required: true, message: '输入与偶像', trigger: 'blur' },
+        { required: true, message: '输入邮箱', trigger: 'blur' },
         {
             type: 'email',
             message: 'Please input correct email address',
@@ -145,10 +144,31 @@ const rules = reactive({
     checkPass: [{ validator: checkPass, trigger: 'blur' }]
 })
 
-const handleRegister = () => {
+/**
+ * 用户注册方法
+ */
+function handleRegister() {
     userValidate.value.validate(async (valid) => {
         if (valid) {
-            // ElMessage.info("成功！");
+            userRegister(userForm.value).then((res) => {
+                if (res.state.code == '200') {
+                    ElMessageBox.alert(res.state.msg, '注册成功！', {
+                        type: 'success',
+                        confirmButtonText: 'OK',
+                        callback: () => {
+                            userForm.value = {
+                                name: '',
+                                pwd: '',
+                                email: '',
+                                checkPass: ''
+                            }
+                        }
+                    })
+                } else {
+                    ElMessage({ type: 'warning', message: res.state.msg })
+                }
+            })
+
             //表单验证通过之后执行登陆操作，通过vuex
             // store.dispatch("login", ruleForm.value)
         } else {

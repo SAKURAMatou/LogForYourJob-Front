@@ -12,5 +12,10 @@ export function userLogOut() {
     return request.post('/user/logout', user)
 }
 export function userRegister(user) {
-    return request.post('/user/register', user)
+    let registerparam = {
+        useremail: user.email,
+        username: user.name,
+        pwd: user.pwd
+    }
+    return request.post('/user/register', registerparam)
 }

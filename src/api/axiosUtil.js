@@ -59,11 +59,9 @@ request.interceptors.response.use(
             error.message.includes('timeout')
         ) {
             ElMessage.error('请求超时，请稍后再试！' + error.message)
-        }
-        else if (error.response.status == 500) {
+        } else if (error.response.status == 500) {
             ElMessage.error('服务端异常！' + error.message)
-        }
-        else if (error.response.status == 401) {
+        } else if (error.response.status == 401) {
             ElMessageBox.alert('登录已经过期，请重新登录', '提醒', {
                 confirmButtonText: 'OK',
                 callback: function () {
@@ -71,9 +69,10 @@ request.interceptors.response.use(
                     loginStore.logout()
                 }
             })
-        }
-        else if (error.response.status == 422) {
+        } else if (error.response.status == 422) {
             ElMessage.error('请求错误:' + JSON.stringify(error.response.data))
+        } else {
+            ElMessage.error('请求错误:' + error.message)
         }
         // console.log('response error', error)
 
