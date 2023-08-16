@@ -6,7 +6,9 @@
         </div>
         <div class="detail-table-salary detail-table-01">
             <SvgIcon class="svg-icon-icon" name="currency-dollar"></SvgIcon>
-            <span>薪资{{ detail.salary }}&nbsp;K</span>
+            <span>
+                薪资:{{ detail.salarydown }}-{{ detail.salaryup }}&nbsp;K
+            </span>
         </div>
         <div class="detail-table-heart detail-table-01">
             <SvgIcon

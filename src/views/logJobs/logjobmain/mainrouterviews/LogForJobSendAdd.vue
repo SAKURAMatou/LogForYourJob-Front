@@ -35,17 +35,31 @@
                 </el-form-item>
             </el-row>
             <el-row>
-                <el-form-item
-                    label="薪资"
-                    class="el-form-item-half"
-                    prop="salary"
-                >
-                    <el-input-number
-                        v-model="dataBean.salary"
-                        min="0"
-                        step-strictly
-                        class=".input-half"
-                    />&nbsp;K
+                <el-form-item label="薪资" class="el-form-item-half" required>
+                    <el-col :span="11">
+                        <el-form-item prop="salarydown">
+                            <el-input-number
+                                v-model="dataBean.salarydown"
+                                min="0"
+                                step-strictly
+                                class=".input-half"
+                            />
+                        </el-form-item>
+                    </el-col>
+                    <el-col class="text-center" :span="2">
+                        <span class="text-gray-500">-</span>
+                    </el-col>
+                    <el-col :span="11">
+                        <el-form-item prop="salaryup">
+                            <el-input-number
+                                v-model="dataBean.salaryup"
+                                min="0"
+                                step-strictly
+                                class=".input-half"
+                            />
+                            &nbsp;K
+                        </el-form-item>
+                    </el-col>
                 </el-form-item>
                 <el-form-item
                     label="公司网址"
@@ -173,7 +187,8 @@ const dataBean = reactive({
     guid: '',
     cname: '',
     jobname: '',
-    salary: '',
+    salaryup: '',
+    salarydown: '',
     heartlevel: '',
     cwebsite: '',
     jobdescription: '',
@@ -197,8 +212,12 @@ const dataBeanRule = reactive({
             trigger: 'blur'
         }
     ],
-    salary: [
-        { required: true, message: '输入薪资', trigger: 'blur' },
+    salarydown: [
+        { validator: checksalarydown, trigger: ['blur', 'change'] },
+        { type: 'number', message: '薪资必须是数字' }
+    ],
+    salaryup: [
+        { validator: checksalaryup, trigger: ['blur', 'change'] },
         { type: 'number', message: '薪资必须是数字' }
     ],
     heartlevel: [{ required: true, message: '选择意向程度', trigger: 'blur' }],
@@ -206,6 +225,28 @@ const dataBeanRule = reactive({
     // cwebsite: [{ validator: checkWebsite, trigger: 'blur' }]
     cwebsite: [{ type: 'url', message: '请输入正确的网址', trigger: 'blur' }]
 })
+
+function checksalarydown(rule, value, callback) {
+    if (value === '' || value === 0) {
+        callback(new Error('薪资下限不能为空'))
+    } else if (dataBean.salaryup != '' && dataBean.salaryup != 0) {
+        if (value > dataBean.salaryup) {
+            callback(new Error('薪资下限不能大于薪资上限'))
+        }
+    }
+    callback()
+}
+
+function checksalaryup(rule, value, callback) {
+    if (value === '' || value === 0) {
+        callback(new Error('薪资上限不能为空'))
+    } else if (dataBean.salarydown != '' && dataBean.salarydown != 0) {
+        if (value < dataBean.salarydown) {
+            callback(new Error('薪资上限不能小于薪资下限'))
+        }
+    }
+    callback()
+}
 
 /**
  * 添加新的投递记录
