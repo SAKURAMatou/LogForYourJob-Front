@@ -5,7 +5,8 @@ const DL_ROUTER_PATH = {
         children: {
             log_main: 'main',
             job: 'jobsearch',
-            setting: 'user/setting'
+            setting: 'user/setting',
+            interview:"interview"
         }
     },
     login_view: {

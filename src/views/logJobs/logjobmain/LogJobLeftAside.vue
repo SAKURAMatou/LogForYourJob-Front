@@ -13,6 +13,10 @@
                     <el-icon><SvgIcon name="document"></SvgIcon></el-icon>
                     <span class="left-aside-menu">找工作记录</span>
                 </el-menu-item>
+                <el-menu-item :index="interview">
+                    <el-icon><SvgIcon name="document"></SvgIcon></el-icon>
+                    <span class="left-aside-menu">面经问答</span>
+                </el-menu-item>
 
                 <div id="line-ap">
                     <svg
@@ -55,6 +59,11 @@ const setting = ref(
     DL_ROUTER_PATH.main_view.main_root +
         '/' +
         DL_ROUTER_PATH.main_view.children.setting
+)
+const interview = ref(
+    DL_ROUTER_PATH.main_view.main_root +
+        '/' +
+        DL_ROUTER_PATH.main_view.children.interview
 )
 
 const handleOpen = (key, keyPath) => {

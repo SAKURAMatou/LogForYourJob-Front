@@ -33,6 +33,15 @@ const childrenRouter = [
                 '../../views/logJobs/logjobmain/mainrouterviews/LogForJobSendList.vue'
             ),
         meta: { tag: '投递记录' }
+    },
+    {
+        path: DL_ROUTER_PATH.main_view.children.interview,
+        name: 'interview',
+        component: () =>
+            import(
+                '../../views/logJobs/logjobmain/mainrouterviews/LogForJobInterview.vue'
+            ),
+        meta: { tag: '面试记录' }
     }
 ]
 
