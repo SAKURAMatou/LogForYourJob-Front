@@ -9,14 +9,9 @@
             >
                 <el-form-item label="">
                     <div class="interview-question-search-tags">
-                        <el-check-tag
-                            v-for="(tag, i) in tagLsit"
-                            v-bind:color="tag.type"
-                            @click="onChange"
-                            v-bind:checked="tag.checked"
-                            v-bind:index="`${i}`"
-                            >{{ tag.tagName }}</el-check-tag
-                        >
+                        <QuestionTagSelect
+                            ref="questionTagSelectRef"
+                        ></QuestionTagSelect>
                     </div>
                 </el-form-item>
                 <el-form-item label="关键字">
@@ -133,7 +128,6 @@
             :close-on-press-escape="false"
             title="新增面经"
             width="80%"
-            
         >
             <QuestionAdd></QuestionAdd>
         </el-dialog>
@@ -154,6 +148,7 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 
 import { getInterviewQuestions } from '@/api/interviewUtil.js'
 import QuestionAdd from '@/components/interviewComp/QuestionAdd.vue'
+import QuestionTagSelect from '@/components/interviewComp/QuestionTagSelect.vue'
 
 const searchBean = reactive({
     tagvalue: '',
@@ -161,6 +156,9 @@ const searchBean = reactive({
 })
 const interviewQuestionAdd = ref(false)
 const interviewQuestionEdit = ref(false)
+
+//子组件对象
+const questionTagSelectRef = ref(null)
 //列表绑定数据的对象
 const tableData = ref([])
 //分页的对象
@@ -199,10 +197,8 @@ function getQuestions() {
  */
 function questionlistsearch() {
     //找到选中的标签
-    searchBean.tagvalue = tagLsit
-        .filter((item) => item.checked == true)
-        .map((item) => item.tagValue)
-        .join(';')
+    searchBean.tagvalue = questionTagSelectRef.value.getSelectedTags().value
+    console.log(searchBean)
     getQuestions()
 }
 
