@@ -360,7 +360,7 @@ function jobsendlistsearch() {
 function handleCurrentChange(e) {
     dataBean.cpage = e
     //先注释分页事件中的请求列表，mock数据的页码随机会当前页码和请求数据后不一致导致重复请求数据
-    // getsendListData()
+    getsendListData()
 }
 
 function beforeAdd() {
