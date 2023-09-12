@@ -129,7 +129,7 @@
             title="新增面经"
             width="80%"
         >
-            <QuestionAdd></QuestionAdd>
+            <QuestionAdd @closeDialog="closeDialog"></QuestionAdd>
         </el-dialog>
         <el-dialog
             v-model="interviewQuestionEdit"
@@ -163,14 +163,6 @@ const questionTagSelectRef = ref(null)
 const tableData = ref([])
 //分页的对象
 const pager = reactive({ total: 0, currentPager: 1, pageSize: 10 })
-const tagLsit = reactive([
-    { tagValue: '01', tagName: 'java', type: '2ED65D', checked: false },
-    { tagValue: '02', tagName: 'spring', type: '9DC0FA', checked: false },
-    { tagValue: '03', tagName: '数据库', type: 'F6C4C4', checked: false },
-    { tagValue: '04', tagName: '消息队列', type: 'F2EF9D', checked: false },
-    { tagValue: '05', tagName: '中间件', type: 'DAF2BC', checked: false },
-    { tagValue: '06', tagName: '微服务', type: '2ED65D', checked: false }
-])
 
 onMounted(() => {
     getQuestions()
@@ -202,9 +194,12 @@ function questionlistsearch() {
     getQuestions()
 }
 
-function onChange(e) {
-    var index = e.target.getAttribute('index')
-    tagLsit[index].checked = !tagLsit[index].checked
+/**
+ * 新增之后的关闭弹窗事件
+ */
+function closeDialog() {
+    interviewQuestionAdd.value = false
+    questionlistsearch()
 }
 
 function handleEdit(index, row) {}

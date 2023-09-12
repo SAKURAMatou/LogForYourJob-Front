@@ -11,7 +11,7 @@
     </div>
 </template>
 <script setup>
-import { reactive, defineExpose } from 'vue'
+import { reactive } from 'vue'
 const props = defineProps({
     tags: String
 })
@@ -31,10 +31,12 @@ function getSelectedTags() {
         'text': selected.map((item) => item.tagName).join(';'),
         'value': selected.map((item) => item.tagValue).join(';')
     }
-    // return tagLsit
-    //     .filter((item) => item.checked == true)
-    //     .map((item) => item.tagValue)
-    //     .join(';')
+}
+/**重置标签的选择 */
+function resetSelectedTags() {
+    tagLsit.forEach((item) => {
+        item.checked = false
+    })
 }
 function onChange(e) {
     var index = e.target.getAttribute('index')
@@ -44,6 +46,7 @@ function onChange(e) {
  * defineExpose把<script setup>中定义的对象暴露给组件的引用者，否则默认不会暴露
  */
 defineExpose({
-    getSelectedTags
+    getSelectedTags,
+    resetSelectedTags
 })
 </script>

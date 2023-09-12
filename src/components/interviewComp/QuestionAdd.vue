@@ -52,7 +52,7 @@
 
                     <el-button
                         class="job-send-button"
-                        @click="addNewSendLog"
+                        @click="saveAndClose"
                         v-no-more-click
                     >
                         确定新增
@@ -68,6 +68,9 @@ import 'mavon-editor/dist/css/index.css'
 import { ref, reactive } from 'vue'
 import QuestionTagSelect from '@/components/interviewComp/QuestionTagSelect.vue'
 
+import { addInterviewQuestion } from '@/api/interviewUtil.js'
+
+const emit = defineEmits(['closeDialog'])
 //子组件对象
 const markdowner = ref(null)
 const questionTagSelectRef = ref(null)
@@ -102,7 +105,7 @@ const dataBeanRule = reactive({
 })
 function validateanswer(rule, value, callback) {
     value = dataBean.answer
-    
+
     if (value === '') {
         callback(new Error('请输入问题的回答!'))
     } else {
@@ -110,7 +113,6 @@ function validateanswer(rule, value, callback) {
     }
 }
 function validatetagValue(rule, value, callback) {
-    
     var selectedTag = questionTagSelectRef.value.getSelectedTags()
     dataBean.tagName = selectedTag.text
     dataBean.tagValue = selectedTag.value
@@ -126,19 +128,36 @@ function markdownSave(value, render) {
     console.log('markdownSave', dataBean)
 }
 
-function saveAndNew() {
-    // mavonEditor.save()
-    // console.log('markdowner', markdowner.value.save())
-
+function addNewQuestion(func) {
     dataBeanRuleRef.value.validate((valid) => {
-        console.log('dataBean', dataBean)
+        // console.log('dataBean', dataBean)
         if (valid) {
-            // TODO 验证成功向后台发送请求
+            addInterviewQuestion(dataBean).then((res) => {
+                if (res.state.code === '200') {
+                    func()
+                } else {
+                    ElMessage({ message: res.state.msg, type: 'warning' })
+                }
+            })
         }
     })
-    // dataBeanRuleRef.value.validateField('answer', (valid) => {
+}
 
-    // })
+function saveAndNew() {
+    addNewQuestion(() => {
+        dataBean.answer = ''
+        dataBean.question = ''
+        dataBean.tagName = ''
+        dataBean.tagValue = ''
+        questionTagSelectRef.value.resetSelectedTags()
+    })
+}
+
+function saveAndClose() {
+    addNewQuestion(() => {
+        //关闭当前的弹窗
+        emit('closeDialog')
+    })
 }
 </script>
 
