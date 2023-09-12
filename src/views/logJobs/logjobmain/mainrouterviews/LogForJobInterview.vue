@@ -137,7 +137,13 @@
             :close-on-click-modal="false"
             :close-on-press-escape="false"
             title="修改面经答案"
+            width="80%"
         >
+            <QuestionEdit
+                :dataBean="editBean"
+                @closeDialog="interviewQuestionEdit = fales"
+                @closeAndRefresh="editClose"
+            ></QuestionEdit>
         </el-dialog>
     </div>
 </template>
@@ -146,13 +152,25 @@
 import { ref, onMounted, inject, reactive } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 
-import { getInterviewQuestions } from '@/api/interviewUtil.js'
+import {
+    getInterviewQuestions,
+    deleteInterviewQuestion,
+    getQuestionByGuid
+} from '@/api/interviewUtil.js'
 import QuestionAdd from '@/components/interviewComp/QuestionAdd.vue'
+import QuestionEdit from '@/components/interviewComp/QuestionEdit.vue'
 import QuestionTagSelect from '@/components/interviewComp/QuestionTagSelect.vue'
 
 const searchBean = reactive({
     tagvalue: '',
     keyword: ''
+})
+const editBean = reactive({
+    question: '',
+    answer: '',
+    tagName: '',
+    tagValue: '',
+    rowguid: ''
 })
 const interviewQuestionAdd = ref(false)
 const interviewQuestionEdit = ref(false)
@@ -190,7 +208,7 @@ function getQuestions() {
 function questionlistsearch() {
     //找到选中的标签
     searchBean.tagvalue = questionTagSelectRef.value.getSelectedTags().value
-    console.log(searchBean)
+    // console.log(searchBean)
     getQuestions()
 }
 
@@ -202,8 +220,34 @@ function closeDialog() {
     questionlistsearch()
 }
 
-function handleEdit(index, row) {}
-function handleDelete(index, row) {}
+function editClose() {
+    interviewQuestionEdit.value = false
+    questionlistsearch()
+}
+
+function handleEdit(index, row) {
+    getQuestionByGuid(row.kguid).then((res) => {
+        if (res.state.code == '200') {
+            editBean.answer = res.custom.answer
+            editBean.question = res.custom.question
+            editBean.rowguid = row.kguid
+            editBean.tagValue = res.custom.tagvalue
+            interviewQuestionEdit.value = true
+        } else {
+            ElMessage({ message: res.state.msg, type: 'warning' })
+        }
+    })
+}
+function handleDelete(index, row) {
+    deleteInterviewQuestion(row.kguid).then((res) => {
+        if (res.state.code == '200') {
+            ElMessage({ message: '删除成功', type: 'success' })
+            questionlistsearch()
+        } else {
+            ElMessage({ message: res.state.msg, type: 'warning' })
+        }
+    })
+}
 </script>
 
 <style scoped>

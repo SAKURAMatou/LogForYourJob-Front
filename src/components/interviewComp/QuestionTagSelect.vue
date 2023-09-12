@@ -38,6 +38,18 @@ function resetSelectedTags() {
         item.checked = false
     })
 }
+function setSelected(value) {
+    if (!value) {
+        return
+    }
+    value.split(';').forEach((item) => {
+        for (let i in tagLsit) {
+            if (tagLsit[i].tagValue == item) {
+                tagLsit[i].checked = true
+            }
+        }
+    })
+}
 function onChange(e) {
     var index = e.target.getAttribute('index')
     tagLsit[index].checked = !tagLsit[index].checked
@@ -47,6 +59,7 @@ function onChange(e) {
  */
 defineExpose({
     getSelectedTags,
-    resetSelectedTags
+    resetSelectedTags,
+    setSelected
 })
 </script>
