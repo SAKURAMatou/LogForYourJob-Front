@@ -54,6 +54,7 @@
                 size="large"
                 :row-style="initRowStyle"
                 row-class-name="table-row-class"
+                @expand-change="expandChange"
             >
                 <el-table-column type="expand">
                     <template #default="props">
@@ -155,7 +156,8 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import {
     getInterviewQuestions,
     deleteInterviewQuestion,
-    getQuestionByGuid
+    getQuestionByGuid,
+    updateViewTimes
 } from '@/api/interviewUtil.js'
 import QuestionAdd from '@/components/interviewComp/QuestionAdd.vue'
 import QuestionEdit from '@/components/interviewComp/QuestionEdit.vue'
@@ -247,6 +249,17 @@ function handleDelete(index, row) {
             ElMessage({ message: res.state.msg, type: 'warning' })
         }
     })
+}
+
+function expandChange(row, expandedRows) {
+    console.log(row)
+    console.log(expandedRows)
+    for (let i in expandedRows) {
+        if (expandedRows[i].kguid == row.kguid) {
+            //对当前行数据进行了展开，查看次数+1
+            updateViewTimes(row.kguid)
+        }
+    }
 }
 </script>
 
