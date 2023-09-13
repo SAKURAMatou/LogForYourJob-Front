@@ -58,9 +58,7 @@
             >
                 <el-table-column type="expand">
                     <template #default="props">
-                        <div>
-                            {{ props.row.answer }}
-                        </div>
+                        <div v-html="props.row.answer"></div>
                     </template>
                 </el-table-column>
                 <el-table-column label="问题">
@@ -71,12 +69,15 @@
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column label="标签" width="400">
+                <el-table-column label="标签" width="200">
                     <template #default="scope">
                         <div style="display: flex; align-items: center">
-                            <el-tag class="ml-2" color="#F6C4C4">{{
-                                scope.row.question
-                            }}</el-tag>
+                            <el-tag
+                                class="list-tag"
+                                v-for="tag in scope.row.tagname"
+                                :type="tag.tagtype"
+                                >{{ tag.tagname }}
+                            </el-tag>
                         </div>
                     </template>
                 </el-table-column>
@@ -152,7 +153,7 @@
 <script setup>
 import { ref, onMounted, inject, reactive } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-
+import { mavonEditor } from 'mavon-editor'
 import {
     getInterviewQuestions,
     deleteInterviewQuestion,
@@ -163,9 +164,19 @@ import QuestionAdd from '@/components/interviewComp/QuestionAdd.vue'
 import QuestionEdit from '@/components/interviewComp/QuestionEdit.vue'
 import QuestionTagSelect from '@/components/interviewComp/QuestionTagSelect.vue'
 
+const markdownIt = mavonEditor.getMarkdownIt()
+
+//子组件对象
+const questionTagSelectRef = ref(null)
+//列表绑定数据的对象
+const tableData = ref([])
+//分页的对象
+const pager = reactive({ total: 0, currentPager: 1, pageSize: 10 })
 const searchBean = reactive({
     tagvalue: '',
-    keyword: ''
+    keyword: '',
+    cpage: pager.currentPager,
+    pagesize: pager.pageSize
 })
 const editBean = reactive({
     question: '',
@@ -176,13 +187,6 @@ const editBean = reactive({
 })
 const interviewQuestionAdd = ref(false)
 const interviewQuestionEdit = ref(false)
-
-//子组件对象
-const questionTagSelectRef = ref(null)
-//列表绑定数据的对象
-const tableData = ref([])
-//分页的对象
-const pager = reactive({ total: 0, currentPager: 1, pageSize: 10 })
 
 onMounted(() => {
     getQuestions()
@@ -198,6 +202,11 @@ function getQuestions() {
             tableData.value = res.custom.list
             pager.total = res.custom.count
             pager.currentPager = res.custom.currentpage
+            searchBean.cpage = pager.currentPager
+            searchBean.pagesize = pager.pageSize
+            tableData.value.forEach((item) => {
+                item.answer = markdownIt.render(item.answer)
+            })
         } else {
             ElMessage({ message: res.state.msg, type: 'warning' })
         }
@@ -252,14 +261,17 @@ function handleDelete(index, row) {
 }
 
 function expandChange(row, expandedRows) {
-    console.log(row)
-    console.log(expandedRows)
     for (let i in expandedRows) {
         if (expandedRows[i].kguid == row.kguid) {
             //对当前行数据进行了展开，查看次数+1
             updateViewTimes(row.kguid)
         }
     }
+}
+
+function handleCurrentChange(e) {
+    searchBean.cpage = e
+    questionlistsearch()
 }
 </script>
 
@@ -293,5 +305,8 @@ function expandChange(row, expandedRows) {
 ::v-deep .el-table__body {
     /* webkit-border-horizontal-spacing: 13px; */
     -webkit-border-vertical-spacing: 13px;
+}
+h1 {
+    font-size: 2em;
 }
 </style>

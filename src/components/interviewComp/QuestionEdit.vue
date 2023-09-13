@@ -37,6 +37,7 @@
                         style="height: 100%"
                         @save="markdownSave"
                         v-model="dataBean.answer"
+                        :renderHTML="true"
                     ></mavon-editor>
                 </div>
             </el-form-item>
@@ -71,6 +72,8 @@ import QuestionTagSelect from '@/components/interviewComp/QuestionTagSelect.vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { modifyQuestion } from '@/api/interviewUtil.js'
 
+// import markdownParser from 'mavon-editor/dist/markdownParser'
+
 const props = defineProps({
     dataBean: Object
 })
@@ -78,6 +81,7 @@ const emit = defineEmits(['closeDialog', 'closeAndRefresh'])
 //子组件对象
 const markdowner = ref(null)
 const questionTagSelectRef = ref(null)
+
 
 onMounted(() => {
     //控件构建完成之后初始化tag的选择

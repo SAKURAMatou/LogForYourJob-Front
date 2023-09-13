@@ -42,7 +42,13 @@ function setSelected(value) {
     if (!value) {
         return
     }
-    value.split(';').forEach((item) => {
+    let tagValue = []
+    if (typeof value == 'string') {
+        tagValue = value.split(';')
+    } else {
+        tagValue = value
+    }
+    tagValue.forEach((item) => {
         for (let i in tagLsit) {
             if (tagLsit[i].tagValue == item) {
                 tagLsit[i].checked = true
