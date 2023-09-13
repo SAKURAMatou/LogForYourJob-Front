@@ -41,7 +41,7 @@ const childrenRouter = [
             import(
                 '../../views/logJobs/logjobmain/mainrouterviews/LogForJobInterview.vue'
             ),
-        meta: { tag: '面试记录' }
+        meta: { tag: '面经问答' }
     }
 ]
 

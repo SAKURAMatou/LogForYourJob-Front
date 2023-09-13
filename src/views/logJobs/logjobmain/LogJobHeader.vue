@@ -42,10 +42,7 @@ const ishide = ref(false)
 const breadcrumbData = ref([])
 
 const route = useRoute()
-// console.log('currentRoute', route)
-// console.log('router.meta', router.currentRoute)
 
-// console.log('breadcrumbData', breadcrumbData)
 //头部列表数据
 const listCount = inject('listCount')
 ishide.value = route.name === 'job'
@@ -60,7 +57,7 @@ const initBreadcrumbData = () => {
         breadcrumbData.value.push({ tag: route.query.name, hideTotal: true })
     }
     breadcrumbData.value.push(route.meta)
-    console.log('breadcrumbData', breadcrumbData)
+    // console.log('breadcrumbData', breadcrumbData)
 }
 initBreadcrumbData()
 /**

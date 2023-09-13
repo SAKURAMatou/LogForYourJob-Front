@@ -165,7 +165,7 @@ import QuestionEdit from '@/components/interviewComp/QuestionEdit.vue'
 import QuestionTagSelect from '@/components/interviewComp/QuestionTagSelect.vue'
 
 const markdownIt = mavonEditor.getMarkdownIt()
-
+const listCount = inject('listCount')
 //子组件对象
 const questionTagSelectRef = ref(null)
 //列表绑定数据的对象
@@ -197,10 +197,11 @@ onMounted(() => {
  */
 function getQuestions() {
     getInterviewQuestions(searchBean).then((res) => {
-        console.log(res)
+        // console.log(res)
         if (res.state.code === '200') {
             tableData.value = res.custom.list
             pager.total = res.custom.count
+            listCount.value = pager.total
             pager.currentPager = res.custom.currentpage
             searchBean.cpage = pager.currentPager
             searchBean.pagesize = pager.pageSize
