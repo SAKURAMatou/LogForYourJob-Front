@@ -65,10 +65,11 @@
 <script setup>
 import { mavonEditor } from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import QuestionTagSelect from '@/components/interviewComp/QuestionTagSelect.vue'
-
+import { ElMessage, ElMessageBox } from 'element-plus'
 import { addInterviewQuestion } from '@/api/interviewUtil.js'
+import { LoginStore } from '@/stores/logjobstore/loginstroe.js'
 
 const emit = defineEmits(['closeDialog'])
 //子组件对象
@@ -103,6 +104,38 @@ const dataBeanRule = reactive({
         }
     ]
 })
+
+const loginStore = LoginStore()
+//暂存问题的key
+let storeKey = loginStore.useremail + '_interview_question'
+
+onMounted(() => {
+    //读取暂存的数据，如果有的话提示并编辑旧数据
+    let existQuestion = JSON.parse(localStorage.getItem(storeKey))
+    if (existQuestion && existQuestion.type == 'ADD') {
+        //存在暂存的面经时
+        ElMessageBox.confirm('存在未提交面经，是否继续编辑？', '提示', {
+            confirmButtonText: 'OK',
+            cancelButtonText: 'Cancel',
+            type: 'warning'
+        }).then(
+            () => {
+                // console.log('existQuestion.content', existQuestion.content)
+                dataBean.answer = existQuestion.content.answer
+                dataBean.question = existQuestion.content.question
+                questionTagSelectRef.value.setSelected(
+                    existQuestion.content.tagValue.value
+                )
+            },
+            () => {
+                //删除暂存的数据
+                // console.log('取消')
+                localStorage.removeItem(storeKey)
+            }
+        )
+    }
+})
+
 function validateanswer(rule, value, callback) {
     value = dataBean.answer
 
@@ -124,8 +157,15 @@ function validatetagValue(rule, value, callback) {
 }
 
 function markdownSave(value, render) {
-    // dataBean.answer = render
-    console.log('markdownSave', dataBean)
+    // 防止用户登录失效，页面关闭等操作导致来不及保存到后台，编辑器的保存操作先把数据保存到浏览器缓存
+    dataBean.tagValue = questionTagSelectRef.value.getSelectedTags()
+    localStorage.setItem(
+        storeKey,
+        JSON.stringify({
+            'type': 'ADD',
+            'content': dataBean
+        })
+    )
 }
 
 function addNewQuestion(func) {
@@ -139,6 +179,8 @@ function addNewQuestion(func) {
                     ElMessage({ message: res.state.msg, type: 'warning' })
                 }
             })
+            //提交之后删除暂存数据
+            localStorage.removeItem(storeKey)
         }
     })
 }

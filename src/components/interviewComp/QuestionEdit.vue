@@ -71,8 +71,7 @@ import { ref, reactive, onMounted } from 'vue'
 import QuestionTagSelect from '@/components/interviewComp/QuestionTagSelect.vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { modifyQuestion } from '@/api/interviewUtil.js'
-
-// import markdownParser from 'mavon-editor/dist/markdownParser'
+import { LoginStore } from '@/stores/logjobstore/loginstroe.js'
 
 const props = defineProps({
     dataBean: Object
@@ -81,12 +80,6 @@ const emit = defineEmits(['closeDialog', 'closeAndRefresh'])
 //子组件对象
 const markdowner = ref(null)
 const questionTagSelectRef = ref(null)
-
-
-onMounted(() => {
-    //控件构建完成之后初始化tag的选择
-    questionTagSelectRef.value.setSelected(props.dataBean.tagValue)
-})
 
 const dataBeanRuleRef = ref({})
 const dataBeanRule = reactive({
@@ -110,6 +103,31 @@ const dataBeanRule = reactive({
             validator: validateanswer
         }
     ]
+})
+
+const loginStore = LoginStore()
+//暂存问题的key
+let storeKey = props.dataBean.rowguid + '_interview_question'
+
+onMounted(() => {
+    //控件构建完成之后初始化tag的选择
+    questionTagSelectRef.value.setSelected(props.dataBean.tagValue)
+
+    let existQuestion = JSON.parse(localStorage.getItem(storeKey))
+    if (existQuestion && existQuestion.type == 'EDIT') {
+        ElMessageBox.confirm('当前面经存在未提交修改，是否继续编辑？', '提示', {
+            confirmButtonText: 'OK',
+            cancelButtonText: 'Cancel',
+            type: 'warning'
+        }).then(
+            () => {
+                props.dataBean.answer = existQuestion.content.answer
+            },
+            () => {
+                localStorage.removeItem(storeKey)
+            }
+        )
+    }
 })
 
 function validateanswer(rule, value, callback) {
@@ -151,12 +169,24 @@ function saveEdit() {
                         type: 'warning'
                     })
                 }
+                localStorage.removeItem(storeKey)
             })
         }
     })
 }
 function cancleEdit() {
     emit('closeDialog')
+}
+
+function markdownSave(value, render) {
+    props.dataBean.tagValue = questionTagSelectRef.value.getSelectedTags()
+    localStorage.setItem(
+        storeKey,
+        JSON.stringify({
+            'type': 'EDIT',
+            'content': props.dataBean
+        })
+    )
 }
 </script>
 <style scoped>
