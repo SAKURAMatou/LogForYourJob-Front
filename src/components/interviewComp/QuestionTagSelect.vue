@@ -4,6 +4,7 @@
             v-for="(tag, i) in tagLsit"
             v-bind:color="tag.type"
             @click="onChange"
+            @change="tagCheckChange"
             v-bind:checked="tag.checked"
             v-bind:index="`${i}`"
             >{{ tag.tagName }}</el-check-tag
@@ -15,6 +16,7 @@ import { reactive } from 'vue'
 const props = defineProps({
     tags: String
 })
+const emits = defineEmits(['refreshList'])
 
 const tagLsit = reactive([
     { tagValue: '01', tagName: 'java', type: '2ED65D', checked: false },
@@ -59,7 +61,10 @@ function setSelected(value) {
 function onChange(e) {
     var index = e.target.getAttribute('index')
     tagLsit[index].checked = !tagLsit[index].checked
+    // console.log('tagChange')
+    emits('refreshList')
 }
+function tagCheckChange() {}
 /**
  * defineExpose把<script setup>中定义的对象暴露给组件的引用者，否则默认不会暴露
  */

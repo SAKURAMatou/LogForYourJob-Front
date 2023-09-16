@@ -7,11 +7,13 @@
                 label-width="120px"
                 :inline="true"
                 style="padding-top: 10px"
+                @submit.prevent
             >
                 <el-form-item label="记录名称">
                     <el-input
                         placeholder="请输入记录名称"
                         v-model="dataBean.mname"
+                        @keyup.enter="jobsendlistsearch"
                         clearable
                     />
                 </el-form-item>

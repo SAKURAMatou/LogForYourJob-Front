@@ -25,7 +25,11 @@ export const LoginStore = defineStore('LoginStore', {
         stateReset(state) {
             return new Promise((resolve) => {
                 //清空浏览器本地存储信息；先请浏览器的本地存储，再重置pinia，否则pinia还能获取到信息
-                localStorage.clear()
+                //由于需要浏览器本地存储暂存一些编辑信息，不能全部清空，登出时只清空用户信息
+                localStorage.removeItem('token')
+                localStorage.removeItem('email')
+                localStorage.removeItem('username')
+                localStorage.removeItem('avatarurl')
                 state.$reset()
                 resolve()
             })

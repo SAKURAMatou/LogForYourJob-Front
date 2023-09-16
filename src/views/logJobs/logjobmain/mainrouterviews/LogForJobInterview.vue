@@ -6,11 +6,13 @@
                 label-width="120px"
                 :inline="true"
                 style="padding-top: 10px"
+                @submit.prevent
             >
                 <el-form-item label="">
                     <div class="interview-question-search-tags">
                         <QuestionTagSelect
                             ref="questionTagSelectRef"
+                            @refreshList="questionlistsearch"
                         ></QuestionTagSelect>
                     </div>
                 </el-form-item>
@@ -18,6 +20,7 @@
                     <el-input
                         placeholder="请输入问题关键字"
                         v-model="searchBean.keyword"
+                        @keyup.enter="questionlistsearch"
                         clearable
                     />
                 </el-form-item>
@@ -273,6 +276,10 @@ function expandChange(row, expandedRows) {
 function handleCurrentChange(e) {
     searchBean.cpage = e
     questionlistsearch()
+}
+
+function keyenterinput() {
+    console.log('cxjl1')
 }
 </script>
 
