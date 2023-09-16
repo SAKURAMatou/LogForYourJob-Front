@@ -66,14 +66,13 @@ export const LoginStore = defineStore('LoginStore', {
         },
         logout() {
             return new Promise((resolve) => {
-                // console.log('logout')
                 //重置state
                 this.stateReset.then(() => {
                     // 登陆信息清空之后跳转
                     // console.log('after reset', this.getUserInfo, localStorage)
                     //路由跳转根路径
                     router.push('/')
-                    //TODO
+
                     resolve()
                 })
             })

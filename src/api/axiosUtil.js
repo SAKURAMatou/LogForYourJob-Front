@@ -32,7 +32,7 @@ request.interceptors.request.use((config) => {
                     confirmButtonText: 'OK',
                     callback: function () {
                         //执行退出操作并跳转登录页面
-                        loginStore.logout()
+                        loginStore.logout().then(location.reload())
                     }
                 })
             }

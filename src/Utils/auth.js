@@ -29,7 +29,7 @@ const Auth = {
             let now = Date.now()
             //
             if (!tokenTime) {
-                resove()
+                reject()
             }
             if (now - tokenTime > TOKEN_TIME_VALUE) {
                 reject()
