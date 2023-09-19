@@ -6,7 +6,7 @@ const DL_ROUTER_PATH = {
             log_main: 'main',
             job: 'jobsearch',
             setting: 'user/setting',
-            interview:"interview"
+            interview: 'interview'
         }
     },
     login_view: {
@@ -22,7 +22,7 @@ const DL_CONST_VALUE = {
     },
     AUTH: {
         TOKEN_TIME: 'tokenTime',
-        TOKEN_TIME_VALUE: 60 * 60 * 1000
+        TOKEN_TIME_VALUE: 3 * 60 * 60 * 1000
     },
     WHITE_LIST: ['/user/login', '/user/register']
 }

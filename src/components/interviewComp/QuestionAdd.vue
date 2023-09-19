@@ -175,12 +175,12 @@ function addNewQuestion(func) {
             addInterviewQuestion(dataBean).then((res) => {
                 if (res.state.code === '200') {
                     func()
+                    //提交之后删除暂存数据
+                    localStorage.removeItem(storeKey)
                 } else {
                     ElMessage({ message: res.state.msg, type: 'warning' })
                 }
             })
-            //提交之后删除暂存数据
-            localStorage.removeItem(storeKey)
         }
     })
 }

@@ -163,13 +163,13 @@ function saveEdit() {
                         type: 'success'
                     })
                     emit('closeAndRefresh')
+                    localStorage.removeItem(storeKey)
                 } else {
                     ElMessage({
                         message: res.state.msg,
                         type: 'warning'
                     })
                 }
-                localStorage.removeItem(storeKey)
             })
         }
     })

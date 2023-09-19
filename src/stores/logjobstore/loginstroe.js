@@ -30,6 +30,7 @@ export const LoginStore = defineStore('LoginStore', {
                 localStorage.removeItem('email')
                 localStorage.removeItem('username')
                 localStorage.removeItem('avatarurl')
+                localStorage.removeItem('tokenTime')
                 state.$reset()
                 resolve()
             })
